@@ -8,11 +8,12 @@ const Router = {
     // Vistas aún sin construir: muestran un stub "en construcción".
     // ponytail: stubs hasta que cada vista tenga su tarea (perfil/pedidos/favoritos/contacto).
     stubs: {
-        contacto:  ['Contáctanos', 'bi-envelope', 'Formulario de contacto en construcción.'],
         perfil:    ['Mi perfil', 'bi-person', 'Tu perfil estará disponible pronto.'],
         pedidos:   ['Mis compras', 'bi-bag', 'El historial de pedidos estará disponible pronto.'],
-        favoritos: ['Mis favoritos', 'bi-heart', 'Tu lista de favoritos estará disponible pronto.'],
     },
+
+    // Páginas informativas de Leo (paginas.js) → render en view-generic
+    paginas: ['despacho', 'garantia', 'medios-pago', 'nosotros'],
 
     init() {
         // Links con data-view -> setean el hash
@@ -66,6 +67,30 @@ const Router = {
             this.show('view-detalle');
             this.crumbs([['Inicio', '#/'], ['Catálogo', '#/catalogo'], ['Detalle']]);
             Catalogo.loadDetail(seg[1]);
+            return;
+        }
+
+        // Contacto (contacto.js — tarea de Leo)
+        if (path === 'contacto') {
+            this.show('view-generic');
+            this.crumbs([['Inicio', '#/'], ['Contacto']]);
+            Contacto.render();
+            return;
+        }
+
+        // Páginas informativas del footer (paginas.js — tarea de Leo)
+        if (this.paginas.includes(path)) {
+            this.show('view-generic');
+            this.crumbs([['Inicio', '#/'], [path]]);
+            Paginas.render(path);
+            return;
+        }
+
+        // Favoritos: grid de productos guardados (vista real, reutiliza view-generic)
+        if (path === 'favoritos') {
+            this.show('view-generic');
+            this.crumbs([['Inicio', '#/'], ['Mis favoritos']]);
+            Catalogo.loadFavoritos();
             return;
         }
 

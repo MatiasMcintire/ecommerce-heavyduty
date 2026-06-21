@@ -1,0 +1,17 @@
+/* ============================================================
+   leo.css — Estilos de Leonardo (Contacto + páginas del footer)
+   ------------------------------------------------------------
+   Este archivo es TUYO. Poné acá todos los estilos de tus vistas.
+   Se carga DESPUÉS de style.css, así que podés ajustar lo que necesites.
+   Tokens disponibles (de style.css): var(--qc-red), var(--qc-black),
+   var(--qc-gray), var(--qc-border), var(--qc-radius)...
+   ============================================================ */
+
+.leo-contacto,
+.leo-pagina { max-width: 900px; }
+
+.leo-contacto-info p { margin-bottom: 10px; color: var(--qc-gray); }
+.leo-contacto-info i { color: var(--qc-red); margin-right: 6px; }
+
+.leo-pagina-body { color: var(--qc-gray); line-height: 1.7; }
+.leo-pagina-body ul { padding-left: 18px; }
