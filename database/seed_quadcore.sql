@@ -64,3 +64,12 @@ INSERT INTO productos (id_categoria, nombre, slug, descripcion, precio, stock, s
 (5, 'Bisagras Plásticas Notebook (par)', 'bisagras-plasticas-notebook', 'Par de bisagras plásticas de repuesto para notebooks, alta resistencia.', 6990, 28, 10, 'QuadCore', NULL, 1, 'Bisagras plásticas notebook (par).'),
 -- Servicios Técnicos (1)
 (6, 'Diagnóstico Técnico Profesional', 'diagnostico-tecnico-profesional', 'Servicio de diagnóstico técnico profesional de equipos, con informe detallado.', 19990, 99, 1, 'QuadCore', NULL, 1, 'Diagnóstico técnico profesional.');
+
+-- ── Reseñas de ejemplo (aprobadas) para mostrar ratings en la demo ──
+-- usuarios: 2=Juan (cliente), 4=Ana (supervisor). Unique por (producto, usuario).
+INSERT INTO resenas (id_producto, id_usuario, calificacion, comentario, aprobada) VALUES
+(1, 2, 5, 'Excelente procesador, muy rápido para gaming y edición.', 1),
+(1, 4, 4, 'Muy buena relación precio/rendimiento.', 1),
+(2, 2, 5, 'La placa funcionó perfecta, fácil de instalar.', 1),
+(3, 4, 4, 'Memoria veloz, sin problemas de compatibilidad.', 1),
+(5, 2, 5, 'La pasta térmica bajó varios grados la temperatura.', 1);

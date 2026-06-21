@@ -22,6 +22,8 @@ use App\Pagos\PagosController;
 use App\Inventario\InventarioController;
 use App\Admin\AdminController;
 use App\Integracion\IntegracionController;
+use App\Resenas\ResenasController;
+use App\Favoritos\FavoritosController;
 
 // Iniciar sesión
 Session::iniciar();
@@ -61,6 +63,15 @@ $router->get('/api/catalogo/categorias', [CatalogoController::class, 'categorias
 $router->get('/api/catalogo/marcas', [CatalogoController::class, 'marcas']);
 $router->get('/api/catalogo/destacados', [CatalogoController::class, 'destacados']);
 $router->get('/api/catalogo/{id}', [CatalogoController::class, 'detalle']);
+
+// --- Reseñas de productos ---
+$router->get('/api/catalogo/{id}/resenas', [ResenasController::class, 'listar']);
+$router->post('/api/catalogo/{id}/resenas', [ResenasController::class, 'crear'], auth: true);
+
+// --- Favoritos (lista de deseos) ---
+$router->get('/api/favoritos', [FavoritosController::class, 'listar'], auth: true);
+$router->post('/api/favoritos', [FavoritosController::class, 'agregar'], auth: true);
+$router->delete('/api/favoritos/{id}', [FavoritosController::class, 'eliminar'], auth: true);
 
 // --- Módulo B: Carrito ---
 $router->get('/api/carrito', [CarritoController::class, 'ver']); // auth opcional
