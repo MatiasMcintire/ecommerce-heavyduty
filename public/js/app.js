@@ -196,8 +196,8 @@ const App = {
     /**
      * Formatea un precio en centavos a string
      */
-    formatPrice(cents) {
-        return '$' + new Intl.NumberFormat('es-CL').format(Math.round(cents / 100));
+    formatPrice(pesos) {
+        return '$' + new Intl.NumberFormat('es-CL').format(Math.round(pesos));
     },
 
     /**
@@ -243,6 +243,4 @@ const App = {
         return fetch(url, { ...options, headers });
     }
 };
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => App.init());
+// App.init() se invoca desde el bootstrap inline de index.html (junto con Router.init()).

@@ -381,7 +381,7 @@ const Admin = {
                             <td>${i + 1}</td>
                             <td>${this.escapeHtml(p.nombre_producto)}</td>
                             <td><strong>${p.total_vendido}</strong></td>
-                            <td>$ ${new Intl.NumberFormat('es-CL').format(Math.round(p.total_recaudado / 100))}</td>
+                            <td>$ ${new Intl.NumberFormat('es-CL').format(Math.round(p.total_recaudado))}</td>
                         </tr>`).join('')}</tbody></table>`;
             } else {
                 html += '<p class="text-muted">No hay datos de ventas aún.</p>';
@@ -413,7 +413,7 @@ const Admin = {
         if (!ctx) return;
 
         const labels = ventasData.map(v => v.fecha);
-        const values = ventasData.map(v => Math.round(v.total_ventas / 100));
+        const values = ventasData.map(v => Math.round(v.total_ventas));
 
         // Crear barras simples con HTML/CSS
         const maxVal = Math.max(...values, 1);
@@ -499,7 +499,7 @@ const Admin = {
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Precio ($) *</label>
-                                    <input type="number" class="form-control" id="prod-precio" value="${product ? Math.round(product.precio / 100) : ''}" required min="0">
+                                    <input type="number" class="form-control" id="prod-precio" value="${product ? Math.round(product.precio) : ''}" required min="0">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Stock</label>
@@ -549,7 +549,7 @@ const Admin = {
         const nombre = document.getElementById('prod-nombre').value.trim();
         const categoria = document.getElementById('prod-categoria').value;
         const descripcion = document.getElementById('prod-descripcion').value.trim();
-        const precio = parseInt(document.getElementById('prod-precio').value) * 100;
+        const precio = parseInt(document.getElementById('prod-precio').value);
         const stock = parseInt(document.getElementById('prod-stock').value) || 0;
         const stockMin = parseInt(document.getElementById('prod-stock-min').value) || 5;
         const imagen = document.getElementById('prod-imagen').value.trim();

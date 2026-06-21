@@ -139,7 +139,7 @@ class CheckoutRepository
 
         // Formatear montos
         foreach (['subtotal', 'iva', 'total'] as $campo) {
-            $pedido[$campo . '_formateado'] = '$' . number_format($pedido[$campo] / 100, 0, ',', '.');
+            $pedido[$campo . '_formateado'] = '$' . number_format($pedido[$campo] , 0, ',', '.');
             $pedido[$campo] = (int)$pedido[$campo];
         }
 
@@ -164,7 +164,7 @@ class CheckoutRepository
         $pedidos = $stmt->fetchAll();
 
         foreach ($pedidos as &$p) {
-            $p['total_formateado'] = '$' . number_format($p['total'] / 100, 0, ',', '.');
+            $p['total_formateado'] = '$' . number_format($p['total'] , 0, ',', '.');
             $p['total'] = (int)$p['total'];
             $p['total_items'] = (int)$p['total_items'];
         }
