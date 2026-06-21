@@ -7,14 +7,31 @@ const Admin = {
     currentSection: 'dashboard',
 
     /**
-     * Inicializa el panel admin
+     * Abre el panel admin como página de la SPA (#/admin).
+     * Inyecta el shell (sidebar + contenido) en view-generic y gatea por rol.
      */
-    init() {
+    openPage() {
+        const view = document.getElementById('view-generic');
+        if (!view) return;
         if (!App.user || App.user.rol !== 'admin') {
-            window.location.href = '/login.html?redirect=admin.html';
+            view.innerHTML = `<div class="empty-state"><i class="bi bi-shield-lock"></i>
+                <h5>Acceso restringido</h5><p class="text-muted">Esta sección es solo para administradores.</p>
+                <a href="#/" class="btn btn-outline-uct btn-sm mt-2">Volver al inicio</a></div>`;
             return;
         }
-
+        view.innerHTML = `
+            <div class="admin-layout">
+                <aside class="admin-sidebar">
+                    <h6 class="admin-sidebar-title">Panel admin</h6>
+                    <a class="admin-nav-link active" data-section="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <a class="admin-nav-link" data-section="productos"><i class="bi bi-box-seam"></i> Productos</a>
+                    <a class="admin-nav-link" data-section="pedidos"><i class="bi bi-bag"></i> Pedidos</a>
+                    <a class="admin-nav-link" data-section="usuarios"><i class="bi bi-people"></i> Usuarios</a>
+                    <a class="admin-nav-link" data-section="reportes"><i class="bi bi-graph-up"></i> Reportes</a>
+                </aside>
+                <div class="admin-main" id="admin-content"></div>
+            </div>`;
+        this.currentSection = 'dashboard';
         this.initNavigation();
         this.loadDashboard();
     },
@@ -73,73 +90,70 @@ const Admin = {
 
             const d = data.data;
 
-            container.innerHTML = `
-                <h4 class="mb-4">Panel de Control</h4>
+            // Tarjeta de métrica (estilo Mantis adaptado a QuadCore). Sin % de
+            // tendencia: no tenemos histórico, así que el subtexto es un dato real.
+            const stat = (label, value, sub, icon, variant = '') => `
+                <div class="qc-stat ${variant}">
+                    <div class="qc-stat-top">
+                        <span class="qc-stat-label">${label}</span>
+                        <span class="qc-stat-icon"><i class="bi ${icon}"></i></span>
+                    </div>
+                    <div class="qc-stat-value">${value}</div>
+                    <div class="qc-stat-sub">${sub}</div>
+                </div>`;
 
-                <div class="row mb-4">
-                    <div class="col-md-3 mb-3">
-                        <div class="stat-card">
-                            <div class="stat-value">${d.total_productos}</div>
-                            <div class="stat-label">Productos</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="stat-card accent">
-                            <div class="stat-value">${d.total_pedidos}</div>
-                            <div class="stat-label">Pedidos Totales</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="stat-card success">
-                            <div class="stat-value">${d.ventas_hoy?.total_ventas_formateado || '$0'}</div>
-                            <div class="stat-label">Ventas Hoy</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <div class="stat-card danger">
-                            <div class="stat-value">${d.pedidos_pendientes}</div>
-                            <div class="stat-label">Pendientes</div>
-                        </div>
-                    </div>
+            const agotados = d.productos_agotados || 0;
+            const rows = (d.ultimos_pedidos || []).map(p => `
+                <tr>
+                    <td class="fw-bold">${ordenNumero(p.id, p.created_at)}</td>
+                    <td>${this.escapeHtml(p.cliente_nombre)} ${this.escapeHtml(p.apellido || '')}</td>
+                    <td class="text-primary fw-bold">${p.total_formateado}</td>
+                    <td>${badgeEstado(p.estado)}</td>
+                </tr>`).join('');
+
+            const stock = (d.alertas_stock && d.alertas_stock.length)
+                ? d.alertas_stock.map(a => `
+                    <div class="admin-stock-item">
+                        <span class="text-truncate">${this.escapeHtml(a.nombre)}</span>
+                        <span class="pedido-badge danger"><span class="pedido-dot"></span>${a.stock} u.</span>
+                    </div>`).join('')
+                : '<p class="text-success mb-0"><i class="bi bi-check-circle"></i> Stock al día.</p>';
+
+            container.innerHTML = `
+                <h1 class="admin-page-title">Dashboard</h1>
+                <div class="qc-stats-grid">
+                    ${stat('Ventas del mes', d.total_ventas_mes?.total_ventas_formateado || '$0', `${d.total_ventas_mes?.total_pedidos || 0} pedidos pagados`, 'bi-graph-up-arrow', 'accent')}
+                    ${stat('Pedidos totales', d.total_pedidos, `${d.pedidos_pendientes || 0} pendiente${d.pedidos_pendientes === 1 ? '' : 's'}`, 'bi-bag-check', '')}
+                    ${stat('Productos', d.total_productos, agotados > 0 ? `${agotados} agotado${agotados === 1 ? '' : 's'}` : 'Catálogo activo', 'bi-box-seam', agotados > 0 ? 'warn' : '')}
+                    ${stat('Usuarios', d.total_usuarios, 'Registrados', 'bi-people', '')}
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white">
-                                <i class="bi bi-exclamation-triangle me-2"></i>Alertas de Stock
+                <div class="row g-4 mt-1">
+                    <div class="col-lg-8">
+                        <div class="cart-table-card">
+                            <div class="admin-card-head">
+                                <h6>Pedidos recientes</h6>
+                                <a href="#" class="pedido-ver admin-goto">Ver todos <i class="bi bi-chevron-right"></i></a>
                             </div>
-                            <div class="card-body">
-                                ${d.alertas_stock && d.alertas_stock.length > 0
-                                    ? `<div class="list-group">${d.alertas_stock.map(a => `
-                                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                                            ${this.escapeHtml(a.nombre)}
-                                            <span class="badge bg-danger">Stock: ${a.stock} (mín: ${a.stock_minimo})</span>
-                                        </div>`).join('')}</div>`
-                                    : '<p class="text-success mb-0">No hay alertas de stock.</p>'}
-                            </div>
+                            <table class="cart-table">
+                                <thead><tr><th>Orden</th><th>Cliente</th><th>Total</th><th>Estado</th></tr></thead>
+                                <tbody>${rows || '<tr><td colspan="4" class="text-center text-muted py-4">Sin pedidos.</td></tr>'}</tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white">
-                                <i class="bi bi-clock-history me-2"></i>Últimos Pedidos
-                            </div>
-                            <div class="card-body">
-                                ${d.ultimos_pedidos && d.ultimos_pedidos.length > 0
-                                    ? `<div class="list-group">${d.ultimos_pedidos.map(p => `
-                                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <strong>#${p.id}</strong> - ${this.escapeHtml(p.cliente_nombre)} ${this.escapeHtml(p.apellido || '')}
-                                                <br><small>${new Date(p.created_at).toLocaleString('es-CL')}</small>
-                                            </div>
-                                            <span class="badge-estado ${p.estado}">${p.estado}</span>
-                                        </div>`).join('')}</div>`
-                                    : '<p class="text-muted mb-0">No hay pedidos recientes.</p>'}
-                            </div>
+                    <div class="col-lg-4">
+                        <div class="cart-summary-card" style="position:static">
+                            <h6 class="cart-summary-title">Alertas de stock</h6>
+                            ${stock}
                         </div>
                     </div>
                 </div>`;
+
+            // "Ver todos" → dispara la sección de pedidos reusando la nav del sidebar
+            container.querySelector('.admin-goto')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector('.admin-nav-link[data-section="pedidos"]')?.click();
+            });
         } catch (e) {
             container.innerHTML = '<div class="alert alert-danger">Error al cargar dashboard.</div>';
         }

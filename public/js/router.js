@@ -88,6 +88,12 @@ const Router = {
             Perfil.openPage();
             return;
         }
+        if (path === 'admin') {
+            this.show('view-generic');
+            this.crumbs([['Inicio', '#/'], ['Panel admin']]);
+            Admin.openPage();
+            return;
+        }
 
         // Contacto (contacto.js — tarea de Leo)
         if (path === 'contacto') {
