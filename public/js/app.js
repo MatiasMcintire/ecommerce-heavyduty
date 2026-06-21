@@ -71,9 +71,10 @@ const App = {
             searchForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const query = document.getElementById('search-input').value.trim();
-                if (query) {
-                    window.location.href = window.location.pathname.replace(/\/+$/, '') + '/?search=' + encodeURIComponent(query);
-                }
+                // SPA: navegar al catálogo con ?q= en el hash (sin recargar la página)
+                const target = '#/catalogo' + (query ? '?q=' + encodeURIComponent(query) : '');
+                if (location.hash === target) Router.render();   // re-buscar si ya estamos ahí
+                else location.hash = target;
             });
         }
     },

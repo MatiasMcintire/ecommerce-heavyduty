@@ -97,16 +97,7 @@ const Catalogo = {
         if (this.filters.ordenar) params.set('ordenar', this.filters.ordenar);
         params.set('pagina', this.currentPage);
         params.set('por_pagina', 12);
-
-        // Leer búsqueda de URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchQuery = urlParams.get('q');
-        if (searchQuery && !this.filters.q) {
-            this.filters.q = searchQuery;
-            params.set('q', searchQuery);
-            const searchInput = document.getElementById('search-input');
-            if (searchInput) searchInput.value = searchQuery;
-        }
+        // La búsqueda (this.filters.q) la setea el router desde #/catalogo?q=…
 
         try {
             const resp = await fetch(`${App.apiBase}/catalogo?${params.toString()}`);
