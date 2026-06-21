@@ -528,6 +528,9 @@ div.cart-item-img { display: flex; align-items: center; justify-content: center;
 .cart-table thead th { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--qc-gray); font-weight: 700; padding: 12px 8px; border-bottom: 1px solid var(--qc-border); }
 .cart-table td { padding: 16px 8px; border-bottom: 1px solid var(--qc-border); vertical-align: middle; }
 .cart-table tbody tr:last-child td { border-bottom: none; }
+/* hover sutil de fila, compartido por carrito, mis compras y detalle de pedido */
+.cart-table tbody tr { transition: background .12s; }
+.cart-table tbody tr:hover { background: var(--qc-gray-light); }
 .cart-row-name { font-weight: 600; color: var(--qc-black); }
 .cart-keep-shopping { display: inline-block; margin-top: 16px; color: var(--qc-gray); text-decoration: none; font-weight: 600; }
 .cart-keep-shopping:hover { color: var(--qc-red); }
@@ -562,9 +565,6 @@ div.cart-item-img { display: flex; align-items: center; justify-content: center;
 .pedido-pill { border: 1px solid var(--qc-border); background: #fff; border-radius: 999px; padding: 6px 16px; font-size: 13px; font-weight: 600; color: var(--qc-gray); cursor: pointer; transition: .15s; }
 .pedido-pill:hover { border-color: var(--qc-red); color: var(--qc-red); }
 .pedido-pill.active { background: var(--qc-red); border-color: var(--qc-red); color: #fff; }
-.pedidos-table td { padding: 16px 8px; }
-.pedidos-table tbody tr { transition: background .12s; }
-.pedidos-table tbody tr:hover { background: var(--qc-gray-light); }
 
 /* Estado: punto de color + etiqueta sobria (no píldora) */
 .pedido-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--qc-black); }
