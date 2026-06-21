@@ -92,6 +92,17 @@ void main(){gl_Position=position;}`;
     const start = () => { if (raf == null) { resize(); raf = requestAnimationFrame(loop); } };
     const stop = () => { if (raf != null) { cancelAnimationFrame(raf); raf = null; } };
 
-    // Solo anima cuando el hero está visible (cambio de vista / scroll) → no gasta GPU de fondo
-    new IntersectionObserver(([e]) => (e.isIntersecting ? start() : stop()), { threshold: 0.01 }).observe(canvas);
+    // ¿El hero está realmente visible? (display:none → tamaño 0; o scrolleado fuera)
+    function visible() {
+        const r = canvas.getBoundingClientRect();
+        return r.width > 1 && r.height > 1 && r.bottom > 0 && r.top < window.innerHeight;
+    }
+    const update = () => (visible() ? start() : stop());
+
+    // Solo anima cuando el hero está a la vista → no gasta GPU de fondo.
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    window.addEventListener('hashchange', () => setTimeout(update, 60)); // tras el cambio de vista SPA
+    // Primer arranque DESPUÉS de que el router activó la vista (si no, el canvas aún está oculto)
+    requestAnimationFrame(() => requestAnimationFrame(update));
 })();
