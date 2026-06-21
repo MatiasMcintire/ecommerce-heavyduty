@@ -191,22 +191,69 @@ const Catalogo = {
         this.loadProducts();
     },
 
+    /** Íconos por slug de categoría (decorativo para los tiles del home) */
+    catIcon(slug) {
+        const m = {
+            'componentes-pc': 'bi-cpu', accesorios: 'bi-mouse', cables: 'bi-plug',
+            herramientas: 'bi-tools', repuestos: 'bi-gear-wide-connected', 'servicios-tecnicos': 'bi-wrench-adjustable'
+        };
+        return m[slug] || 'bi-box-seam';
+    },
+
     /**
-     * Carga productos destacados (home) y los pinta en #featured-container
+     * Home retail: tiles de categorías + carrusel de ofertas + carruseles por categoría.
+     * (lo llama el router como Catalogo.loadFeatured)
      */
     async loadFeatured() {
-        const container = document.getElementById('featured-container');
-        if (!container) return;
-        container.innerHTML = '<div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div></div>';
+        this.loadCategoryTiles();
+        this.loadCarousel('home-ofertas', `${App.apiBase}/catalogo/ofertas`);
+        this.loadCategorySections();
+    },
+
+    async loadCategoryTiles() {
+        const box = document.getElementById('home-categorias');
+        if (!box) return;
         try {
-            const resp = await fetch(`${App.apiBase}/catalogo/destacados`);
-            const data = await resp.json();
-            container.innerHTML = (data.success && data.data.length)
-                ? data.data.map(p => this.productCard(p)).join('')
-                : '<div class="col-12 text-center py-4 text-muted">No hay destacados por ahora.</div>';
-        } catch (e) {
-            container.innerHTML = '<div class="col-12 text-center py-4 text-danger">Error al cargar destacados.</div>';
-        }
+            const data = await (await fetch(`${App.apiBase}/catalogo/categorias`)).json();
+            box.innerHTML = (data.data || []).map(c => `
+                <a href="#/catalogo?cat=${encodeURIComponent(c.slug)}" class="qc-cat-tile">
+                    <i class="bi ${this.catIcon(c.slug)}"></i>
+                    <span class="qc-cat-tile-name">${this.escapeHtml(c.nombre)}</span>
+                    <small>${c.total_productos ?? 0} productos</small>
+                </a>`).join('');
+        } catch (e) { box.innerHTML = ''; }
+    },
+
+    /** Pinta un carrusel horizontal de productos desde un endpoint */
+    async loadCarousel(containerId, url) {
+        const box = document.getElementById(containerId);
+        if (!box) return;
+        box.innerHTML = '<div class="text-center py-4 w-100"><div class="spinner-border text-primary"></div></div>';
+        try {
+            const data = await (await fetch(url)).json();
+            const items = data.data || [];
+            box.innerHTML = items.length
+                ? items.map(p => this.productCard(p)).join('')
+                : '<p class="text-muted py-3">Sin productos por ahora.</p>';
+        } catch (e) { box.innerHTML = ''; }
+    },
+
+    /** Un carrusel por cada categoría que tenga productos */
+    async loadCategorySections() {
+        const box = document.getElementById('home-secciones');
+        if (!box) return;
+        try {
+            const cats = (await (await fetch(`${App.apiBase}/catalogo/categorias`)).json()).data || [];
+            const conProductos = cats.filter(c => (c.total_productos ?? 0) > 0).slice(0, 4);
+            box.innerHTML = conProductos.map(c => `
+                <div class="qc-section-head">
+                    <h2 class="section-title mb-0">${this.escapeHtml(c.nombre)}</h2>
+                    <a href="#/catalogo?cat=${encodeURIComponent(c.slug)}" class="qc-section-link">Ver todo →</a>
+                </div>
+                <div class="qc-carousel" id="home-cat-${c.id}"></div>`).join('');
+            conProductos.forEach(c =>
+                this.loadCarousel(`home-cat-${c.id}`, `${App.apiBase}/catalogo?categoria=${c.id}&por_pagina=10`));
+        } catch (e) { box.innerHTML = ''; }
     },
 
     /**
@@ -247,17 +294,21 @@ const Catalogo = {
             ? '<button class="btn btn-secondary btn-sm w-100" disabled>Sin stock</button>'
             : `<button class="btn btn-accent btn-sm w-100 add-to-cart-btn" data-id="${p.id}" data-name="${this.escapeHtml(p.nombre)}"><i class="bi bi-cart-plus"></i> Agregar al carrito</button>`;
 
+        const ofertaBadge = p.descuento_pct ? `<span class="qc-badge-oferta">-${p.descuento_pct}%</span>` : '';
+        const precioAnterior = p.precio_anterior_formateado ? `<span class="card-price-old">${p.precio_anterior_formateado}</span>` : '';
+
         return `
             <div class="col-6 col-lg-4 col-xl-3 mb-4">
                 <div class="product-card position-relative">
                     <div class="qc-card-media">
                         ${media}
+                        ${ofertaBadge}
                         ${stockBadge}
                     </div>
                     <div class="card-body">
                         <span class="card-category">${this.escapeHtml(p.marca || p.categoria_nombre || '')}</span>
                         <h5 class="card-title">${this.escapeHtml(p.nombre)}</h5>
-                        <span class="card-price">${p.precio_formateado || App.formatPrice(p.precio)}</span>
+                        <span class="card-price">${p.precio_formateado || App.formatPrice(p.precio)}</span>${precioAnterior}
                         <div class="mt-2">
                             ${addButton}
                         </div>
@@ -484,7 +535,10 @@ const Catalogo = {
                     <div class="qc-detail-rating text-muted small mb-2" id="detail-rating">
                         <span class="text-muted">Cargando reseñas…</span>
                     </div>
-                    <div class="qc-detail-price">${product.precio_formateado}</div>
+                    <div class="qc-detail-price">
+                        ${product.precio_formateado}
+                        ${product.precio_anterior_formateado ? `<span class="qc-detail-price-old">${product.precio_anterior_formateado}</span><span class="qc-badge-oferta">-${product.descuento_pct}%</span>` : ''}
+                    </div>
                     <div class="qc-detail-stock ${product.sin_stock ? 'agotado' : ''}">
                         <i class="bi ${product.sin_stock ? 'bi-x-circle' : 'bi-check-circle'}"></i>
                         ${product.sin_stock ? 'Sin stock' : 'En Stock — disponible'}

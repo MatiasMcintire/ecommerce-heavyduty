@@ -62,6 +62,7 @@ CREATE TABLE productos (
     slug        VARCHAR(255)    NOT NULL,
     descripcion TEXT            NULL,
     precio      INT UNSIGNED    NOT NULL COMMENT 'Precio en pesos (sin IVA)',
+    precio_anterior INT UNSIGNED NULL COMMENT 'Precio antes de oferta; NULL si no está en oferta',
     stock       INT UNSIGNED    NOT NULL DEFAULT 0,
     stock_minimo INT UNSIGNED   NOT NULL DEFAULT 5,
     marca       VARCHAR(80)     NULL,

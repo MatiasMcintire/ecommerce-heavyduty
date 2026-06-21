@@ -62,6 +62,7 @@ $router->get('/api/catalogo', [CatalogoController::class, 'listar']);
 $router->get('/api/catalogo/categorias', [CatalogoController::class, 'categorias']);
 $router->get('/api/catalogo/marcas', [CatalogoController::class, 'marcas']);
 $router->get('/api/catalogo/destacados', [CatalogoController::class, 'destacados']);
+$router->get('/api/catalogo/ofertas', [CatalogoController::class, 'ofertas']);
 $router->get('/api/catalogo/{id}', [CatalogoController::class, 'detalle']);
 
 // --- Reseñas de productos ---

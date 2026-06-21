@@ -66,7 +66,7 @@
 <div class="qc-breadcrumbs" id="breadcrumbs"></div>
 
 <main class="container mt-4">
-  <!-- Vista: HOME (hero + destacados) -->
+  <!-- Vista: HOME (retail: hero + banners + tiles + carruseles) -->
   <section id="view-home" class="qc-view">
     <div class="qc-hero">
       <div class="qc-hero-content">
@@ -79,9 +79,32 @@
         </div>
       </div>
     </div>
-    <h2 class="section-title mb-1">Productos destacados</h2>
-    <p class="text-muted mb-4">Lo más nuevo y vendido esta semana en QuadCore</p>
-    <div id="featured-container" class="row"></div>
+
+    <!-- Banners promo -->
+    <div class="qc-promos">
+      <a href="#/catalogo" class="qc-promo qc-promo-red">
+        <div><span class="qc-promo-tag">Renová tu PC</span><h3>Hasta 30% OFF en componentes</h3><span class="qc-promo-link">Ver ofertas →</span></div>
+        <i class="bi bi-cpu"></i>
+      </a>
+      <a href="#/catalogo" class="qc-promo qc-promo-dark">
+        <div><span class="qc-promo-tag">Despacho</span><h3>Envío gratis sobre $50.000</h3><span class="qc-promo-link">A todo Chile →</span></div>
+        <i class="bi bi-truck"></i>
+      </a>
+    </div>
+
+    <!-- Tiles de categorías -->
+    <h2 class="section-title mb-3">Explora por categoría</h2>
+    <div class="qc-cat-tiles" id="home-categorias"></div>
+
+    <!-- Ofertas -->
+    <div class="qc-section-head">
+      <h2 class="section-title mb-0">🔥 Ofertas de la semana</h2>
+      <a href="#/catalogo" class="qc-section-link">Ver todo →</a>
+    </div>
+    <div class="qc-carousel" id="home-ofertas"></div>
+
+    <!-- Carruseles por categoría (se llenan dinámicamente) -->
+    <div id="home-secciones"></div>
   </section>
 
   <!-- Vista: CATÁLOGO (filtros + grid) -->

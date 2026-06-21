@@ -101,6 +101,11 @@ class CatalogoService
     /**
      * Obtiene productos destacados
      */
+    public function obtenerOfertas(int $limite = 12): array
+    {
+        return $this->repository->obtenerOfertas($limite);
+    }
+
     public function obtenerDestacados(int $limite = 8): array
     {
         return $this->repository->obtenerDestacados($limite);

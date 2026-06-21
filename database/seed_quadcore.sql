@@ -73,3 +73,12 @@ INSERT INTO resenas (id_producto, id_usuario, calificacion, comentario, aprobada
 (2, 2, 5, 'La placa funcionó perfecta, fácil de instalar.', 1),
 (3, 4, 4, 'Memoria veloz, sin problemas de compatibilidad.', 1),
 (5, 2, 5, 'La pasta térmica bajó varios grados la temperatura.', 1);
+
+-- ── Ofertas de ejemplo (precio_anterior > precio → se muestra el % de descuento) ──
+UPDATE productos SET precio_anterior = 279990 WHERE slug = 'procesador-intel-core-i5-13400f';   -- ~18%
+UPDATE productos SET precio_anterior = 269990 WHERE slug = 'procesador-amd-ryzen-5-7600x';       -- ~26%
+UPDATE productos SET precio_anterior = 74990  WHERE slug = 'memoria-kingston-fury-beast-16gb-ddr5'; -- ~27%
+UPDATE productos SET precio_anterior = 99990  WHERE slug = 'fuente-evga-supernova-750w-gold';     -- ~10%
+UPDATE productos SET precio_anterior = 189990 WHERE slug = 'placa-madre-asus-tuf-b650-plus';      -- ~16%
+UPDATE productos SET precio_anterior = 44990  WHERE slug = 'mouse-logitech-g502-hero';            -- ~22%
+UPDATE productos SET precio_anterior = 149990 WHERE slug = 'refrigeracion-corsair-icue-h100i';    -- ~20%

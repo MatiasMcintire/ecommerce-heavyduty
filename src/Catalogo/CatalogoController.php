@@ -136,4 +136,17 @@ class CatalogoController
             $response->error('SERVER_ERROR', 'Error al obtener destacados.', 500);
         }
     }
+
+    /**
+     * GET /api/catalogo/ofertas
+     * Productos en oferta (con precio anterior), ordenados por mayor descuento
+     */
+    public function ofertas(Request $request, Response $response, array $params): void
+    {
+        try {
+            $response->json($this->service->obtenerOfertas());
+        } catch (\Exception $e) {
+            $response->error('SERVER_ERROR', 'Error al obtener ofertas.', 500);
+        }
+    }
 }
