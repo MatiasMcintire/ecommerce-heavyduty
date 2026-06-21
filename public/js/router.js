@@ -7,10 +7,7 @@
 const Router = {
     // Vistas aún sin construir: muestran un stub "en construcción".
     // ponytail: stubs hasta que cada vista tenga su tarea (perfil/pedidos/favoritos/contacto).
-    stubs: {
-        perfil:    ['Mi perfil', 'bi-person', 'Tu perfil estará disponible pronto.'],
-        pedidos:   ['Mis compras', 'bi-bag', 'El historial de pedidos estará disponible pronto.'],
-    },
+    stubs: {},
 
     // Páginas informativas de Leo (paginas.js) → render en view-generic
     paginas: ['despacho', 'garantia', 'medios-pago', 'nosotros'],
@@ -67,6 +64,28 @@ const Router = {
             this.show('view-detalle');
             this.crumbs([['Inicio', '#/'], ['Catálogo', '#/catalogo'], ['Detalle']]);
             Catalogo.loadDetail(seg[1]);
+            return;
+        }
+
+        // Detalle de pedido: #/pedido/:id
+        if (seg[0] === 'pedido' && seg[1]) {
+            this.show('view-generic');
+            this.crumbs([['Inicio', '#/'], ['Mis compras', '#/pedidos'], ['Detalle']]);
+            Pedidos.openDetail(seg[1]);
+            return;
+        }
+
+        // Mis compras / perfil
+        if (path === 'pedidos') {
+            this.show('view-generic');
+            this.crumbs([['Inicio', '#/'], ['Mis compras']]);
+            Pedidos.openPage();
+            return;
+        }
+        if (path === 'perfil') {
+            this.show('view-generic');
+            this.crumbs([['Inicio', '#/'], ['Mi perfil']]);
+            Perfil.openPage();
             return;
         }
 
