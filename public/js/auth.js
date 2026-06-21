@@ -55,12 +55,15 @@ const Auth = {
                         } catch (e) { /* silencioso */ }
                     }
 
-                    // Redirigir según rol
-                    const redirect = new URLSearchParams(window.location.search).get('redirect');
+                    // SPA: cerrar modal, actualizar UI y navegar sin recargar
+                    bootstrap.Modal.getInstance(document.getElementById('loginModal'))?.hide();
+                    App.updateNavbar();
+                    if (window.Carrito) Carrito.loadCart();
+                    App.showToast?.('¡Bienvenido de vuelta!', 'success');
                     if (data.data.usuario.rol === 'admin') {
-                        window.location.href = window.location.pathname.replace(/\/+$/, '') + '/admin.html';
-                    } else {
-                        window.location.href = redirect || '/';
+                        location.hash = '#/admin';
+                    } else if (window.Router) {
+                        Router.render();   // refresca la vista actual ya con sesión iniciada
                     }
                 } else {
                     if (errorDiv) {
@@ -135,7 +138,11 @@ const Auth = {
 
                 if (data.success) {
                     App.setAuth(data.data.token, data.data.usuario);
-                    window.location.href = '/';
+                    bootstrap.Modal.getInstance(document.getElementById('registerModal'))?.hide();
+                    App.updateNavbar();
+                    if (window.Carrito) Carrito.loadCart();
+                    App.showToast?.('¡Cuenta creada! Bienvenido a QuadCore', 'success');
+                    if (window.Router) Router.render();
                 } else {
                     if (errorDiv) {
                         errorDiv.textContent = data.error?.message || 'Error al registrar.';
