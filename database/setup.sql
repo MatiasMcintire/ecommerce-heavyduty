@@ -21,5 +21,6 @@ USE uct_ecommerce;
 SOURCE database/schema.sql;
 SOURCE database/seed.sql;          -- usuarios, direcciones, cupones (+ catálogo demo)
 SOURCE database/seed_quadcore.sql; -- reemplaza el catálogo demo por el real QuadCore
+SOURCE database/seed_imagenes.sql; -- imágenes de productos (trabajo de Leonardo)
 
 SELECT '✅ Base de datos configurada correctamente' AS mensaje;
