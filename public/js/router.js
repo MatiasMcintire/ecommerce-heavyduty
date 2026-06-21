@@ -95,6 +95,20 @@ const Router = {
             return;
         }
 
+        // Páginas institucionales (info-pages.js)
+        if (path === 'empresas') {
+            this.show('view-generic');
+            this.crumbs([['Inicio', '#/'], ['Venta Empresas']]);
+            Info.empresas();
+            return;
+        }
+        if (path === 'tiendas') {
+            this.show('view-generic');
+            this.crumbs([['Inicio', '#/'], ['Tiendas']]);
+            Info.tiendas();
+            return;
+        }
+
         // Contacto (contacto.js — tarea de Leo)
         if (path === 'contacto') {
             this.show('view-generic');
