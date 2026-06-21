@@ -38,9 +38,9 @@ UPDATE productos SET imagen_url = 'https://plus.unsplash.com/premium_photo-16641
 
 -- Repuestos
 UPDATE productos SET imagen_url = 'https://images.unsplash.com/photo-1640223321014-8659ca225cba?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' WHERE slug = 'pasta-termica-arctic-mx-4-4g';
-UPDATE productos SET imagen_url = '' WHERE slug = 'kit-limpieza-aire-comprimido';
-UPDATE productos SET imagen_url = '' WHERE slug = 'boton-power-reset-universal';
-UPDATE productos SET imagen_url = '' WHERE slug = 'bisagras-plasticas-notebook';
+UPDATE productos SET imagen_url = 'https://images.unsplash.com/photo-1699528136776-51ddd829363e?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' WHERE slug = 'kit-limpieza-aire-comprimido';
+UPDATE productos SET imagen_url = 'https://images.unsplash.com/photo-1537606845186-9921373c310f?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' WHERE slug = 'boton-power-reset-universal';
+UPDATE productos SET imagen_url = 'https://images.unsplash.com/photo-1556644304-99ca9f48ae96?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' WHERE slug = 'bisagras-plasticas-notebook';
 
 -- Servicios Técnicos
-UPDATE productos SET imagen_url = '' WHERE slug = 'diagnostico-tecnico-profesional';
+UPDATE productos SET imagen_url = 'https://images.unsplash.com/photo-1604754742629-3e5728249d73?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' WHERE slug = 'diagnostico-tecnico-profesional';
