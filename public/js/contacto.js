@@ -2,6 +2,7 @@
  * contacto.js — Vista de Contacto (#/contacto)  ·  TAREA LEONARDO #2
  * Solo se edita este archivo + css/leo.css. El form no tiene backend: solo muestra un toast.
  */
+import { CONTACT_INFO } from './contact-data.js';
 const Contacto = {
     render() {
         const view = document.getElementById('view-generic');
@@ -67,16 +68,16 @@ const Contacto = {
                             <iframe class="qc-mapframe" title="Mapa de QuadCore en Providencia, Santiago" loading="lazy"
                                 src="https://www.openstreetmap.org/export/embed.html?bbox=-70.6250,-33.4305,-70.6130,-33.4225&layer=mapnik&marker=-33.4265,-70.6190"></iframe>
                             <ul class="leo-info-list">
-                                <li><i class="bi bi-geo-alt"></i><div><strong>Dirección</strong><span>Av. Providencia 1234, Santiago, Chile</span></div></li>
-                                <li><i class="bi bi-telephone"></i><div><strong>Teléfono</strong><span>+56 2 2123 4567</span></div></li>
-                                <li><i class="bi bi-envelope"></i><div><strong>Email</strong><span>contacto@quadcore.cl</span></div></li>
-                                <li><i class="bi bi-clock"></i><div><strong>Horario</strong><span>Lun a Vie 9–19h · Sáb 10–14h</span></div></li>
+                                <li><i class="bi bi-geo-alt"></i><div><strong>Dirección</strong><span>${CONTACT_INFO.address}</span></div></li>
+                                <li><i class="bi bi-telephone"></i><div><strong>Teléfono</strong><span>${CONTACT_INFO.phone}</span></div></li>
+                                <li><i class="bi bi-envelope"></i><div><strong>Email</strong><span>${CONTACT_INFO.email}</span></div></li>
+                                <li><i class="bi bi-clock"></i><div><strong>Horario</strong><span>${CONTACT_INFO.schedule}</span></div></li>
                             </ul>
                             <div class="leo-social">
                                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
                                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
                                 <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-                                <a href="https://wa.me/56221234567" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                                <a href="https://wa.me/${CONTACT_INFO.phone.replace(/[^0-9]/g, '')}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
                             </div>
                         </div>
                     </div>
