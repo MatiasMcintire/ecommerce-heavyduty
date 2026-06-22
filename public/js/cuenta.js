@@ -25,8 +25,7 @@ function badgeEstado(estado) {
 
 function requireLogin(view, titulo) {
     if (App.token) return false;
-    view.innerHTML = `<div class="empty-state"><i class="bi bi-person-lock"></i>
-        <h5>${titulo}</h5><p class="text-muted">Inicia sesión para continuar.</p></div>`;
+    UI.mostrarVacio(view, { icono: 'bi-person-lock', titulo, descripcion: 'Inicia sesión para continuar.' });
     return true;
 }
 

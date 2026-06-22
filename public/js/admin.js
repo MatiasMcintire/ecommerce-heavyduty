@@ -14,9 +14,7 @@ const Admin = {
         const view = document.getElementById('view-generic');
         if (!view) return;
         if (!App.user || App.user.rol !== 'admin') {
-            view.innerHTML = `<div class="empty-state"><i class="bi bi-shield-lock"></i>
-                <h5>Acceso restringido</h5><p class="text-muted">Esta sección es solo para administradores.</p>
-                <a href="#/" class="btn btn-outline-uct btn-sm mt-2">Volver al inicio</a></div>`;
+            UI.mostrarVacio(view, { icono: 'bi-shield-lock', titulo: 'Acceso restringido', descripcion: 'Esta sección es solo para administradores.', textoBoton: 'Volver al inicio', enlaceBoton: '#/', claseBoton: 'btn-outline-uct' });
             return;
         }
         view.innerHTML = `

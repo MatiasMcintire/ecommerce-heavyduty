@@ -67,7 +67,7 @@ const Paginas = {
         if (!view) return;
         const pag = this.contenido[slug];
         if (!pag) {
-            view.innerHTML = '<div class="empty-state"><h5>Página no encontrada</h5></div>';
+            UI.mostrarVacio(view, { icono: 'bi-exclamation-triangle', titulo: 'Página no encontrada' });
             return;
         }
         view.innerHTML = `

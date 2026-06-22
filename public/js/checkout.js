@@ -18,12 +18,11 @@ const Checkout = {
             new bootstrap.Modal(document.getElementById('loginModal')).show();
             return;
         }
-        view.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+        view.innerHTML = UI.loader();
 
         const data = await (await App.fetchAuth(`${App.apiBase}/carrito`)).json();
         if (!data.success || !data.data.items || data.data.items.length === 0) {
-            view.innerHTML = `<div class="empty-state"><i class="bi bi-cart-x"></i>
-                <h5>Tu carrito está vacío</h5><a href="#/catalogo" class="btn btn-accent btn-sm mt-2">Ir al catálogo</a></div>`;
+            UI.mostrarVacio(view, { icono: 'bi-cart-x', titulo: 'Tu carrito está vacío', textoBoton: 'Ir al catálogo', enlaceBoton: '#/catalogo' });
             return;
         }
         this.cart = data.data;
@@ -219,8 +218,7 @@ const Checkout = {
         if (!view) return;
         const o = this.lastOrder;
         if (!o) {   // entraron directo sin comprar
-            view.innerHTML = `<div class="empty-state"><i class="bi bi-bag"></i>
-                <h5>No hay un pedido reciente</h5><a href="#/catalogo" class="btn btn-accent btn-sm mt-2">Ir al catálogo</a></div>`;
+            UI.mostrarVacio(view, { icono: 'bi-bag', titulo: 'No hay un pedido reciente', textoBoton: 'Ir al catálogo', enlaceBoton: '#/catalogo' });
             return;
         }
         const numero = `#QC-${new Date().getFullYear()}-${String(o.id).padStart(6, '0')}`;

@@ -257,7 +257,7 @@ const App = {
             spinner = document.createElement('div');
             spinner.id = 'loading-spinner';
             spinner.className = 'spinner-overlay';
-            spinner.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>';
+            spinner.innerHTML = UI.loader();
             document.body.appendChild(spinner);
         }
         spinner.style.display = 'flex';
