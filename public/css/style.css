@@ -700,7 +700,7 @@ div.cart-item-img { display: flex; align-items: center; justify-content: center;
 .cart-table thead th { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--qc-gray); font-weight: 700; padding: 12px 8px; border-bottom: 1px solid var(--qc-border); }
 .cart-table td { padding: 16px 8px; border-bottom: 1px solid var(--qc-border); vertical-align: middle; }
 .cart-table tbody tr:last-child td { border-bottom: none; }
-/* hover sutil de fila, compartido por carrito, mis compras y detalle de pedido */
+/* hover sutil de fila, compartido por carrito, Mis Pedidos y detalle de pedido */
 .cart-table tbody tr { transition: background .12s; }
 .cart-table tbody tr:hover { background: var(--qc-gray-light); }
 .cart-row-name { font-weight: 600; color: var(--qc-black); }
@@ -732,7 +732,7 @@ div.cart-item-img { display: flex; align-items: center; justify-content: center;
 .confirm-box { background: var(--qc-gray-light); border-radius: var(--qc-radius); padding: 14px 16px; text-align: left; margin: 16px 0; }
 .confirm-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
 
-/* ── Mis compras / perfil ── */
+/* ── Mis Pedidos / perfil ── */
 .pedido-pills { display: flex; flex-wrap: wrap; gap: 8px; }
 .pedido-pill { border: 1px solid var(--qc-border); background: #fff; border-radius: 999px; padding: 6px 16px; font-size: 13px; font-weight: 600; color: var(--qc-gray); cursor: pointer; transition: .15s; }
 .pedido-pill:hover { border-color: var(--qc-red); color: var(--qc-red); }

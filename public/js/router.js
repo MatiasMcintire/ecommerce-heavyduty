@@ -70,15 +70,15 @@ const Router = {
         // Detalle de pedido: #/pedido/:id
         if (seg[0] === 'pedido' && seg[1]) {
             this.show('view-generic');
-            this.crumbs([['Inicio', '#/'], ['Mis compras', '#/pedidos'], ['Detalle']]);
+            this.crumbs([['Inicio', '#/'], ['Mis Pedidos', '#/pedidos'], ['Detalle']]);
             Pedidos.openDetail(seg[1]);
             return;
         }
 
-        // Mis compras / perfil
+        // Mis Pedidos / perfil
         if (path === 'pedidos') {
             this.show('view-generic');
-            this.crumbs([['Inicio', '#/'], ['Mis compras']]);
+            this.crumbs([['Inicio', '#/'], ['Mis Pedidos']]);
             Pedidos.openPage();
             return;
         }

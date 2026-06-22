@@ -221,7 +221,7 @@ const Checkout = {
             <div class="confirm-actions">
                 <button class="btn btn-accent w-100" id="confirm-receipt"><i class="bi bi-download"></i> Descargar recibo</button>
                 <a href="#/" class="btn btn-outline-uct w-100">Volver al inicio</a>
-                <a href="#/pedidos" class="btn btn-outline-uct w-100">Ver mis compras</a>
+                <a href="#/pedidos" class="btn btn-outline-uct w-100">Ver Mis Pedidos</a>
             </div>
             <p class="text-muted small mt-3"><i class="bi bi-shield-lock"></i> Transacción 100% segura y encriptada</p>
         </div>`;
