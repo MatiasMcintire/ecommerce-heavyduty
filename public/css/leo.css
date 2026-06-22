@@ -41,7 +41,9 @@
     position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
     color: var(--qc-gray); pointer-events: none;
 }
-.leo-input-icon .form-control { padding-left: 38px; }
+/* más específico que `.leo-contacto-form .form-control` (que setea padding shorthand
+   y borraría este left) → el texto no se superpone con el ícono */
+.leo-contacto-form .leo-input-icon .form-control { padding-left: 38px; }
 .leo-contacto-form .form-control {
     border: 1px solid var(--qc-border);
     border-radius: var(--qc-radius-sm);
