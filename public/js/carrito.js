@@ -111,7 +111,7 @@ const Carrito = {
     openPage() {
         const view = document.getElementById('view-generic');
         if (!view) return;
-        view.innerHTML = '<div id="cart-page-root"><div class="text-center py-5"><div class="spinner-border text-primary"></div></div></div>';
+        view.innerHTML = `<div id="cart-page-root">${UI.loader('Cargando carrito...')}</div>`;
         this.loadCart();
     },
 

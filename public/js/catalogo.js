@@ -84,7 +84,7 @@ const Catalogo = {
         const container = document.getElementById('products-container');
         if (!container) return;
 
-        container.innerHTML = '<div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div></div>';
+        container.innerHTML = UI.loader('Cargando productos...');
 
         const params = new URLSearchParams();
         if (this.filters.categorias && this.filters.categorias.length) params.set('categorias', this.filters.categorias.join(','));
@@ -247,7 +247,7 @@ const Catalogo = {
     async loadOfertasMosaic() {
         const box = document.getElementById('home-ofertas');
         if (!box) return;
-        box.innerHTML = '<div class="text-center py-4 w-100"><div class="spinner-border text-primary"></div></div>';
+        box.innerHTML = UI.loader('Cargando ofertas...');
         try {
             const data = await (await fetch(`${App.apiBase}/catalogo/ofertas`)).json();
             const ofertas = data.data || [];
@@ -335,7 +335,7 @@ const Catalogo = {
     async loadCarousel(containerId, url) {
         const box = document.getElementById(containerId);
         if (!box) return;
-        box.innerHTML = '<div class="text-center py-4 w-100"><div class="spinner-border text-primary"></div></div>';
+        box.innerHTML = UI.loader('Cargando...');
         try {
             const data = await (await fetch(url)).json();
             const items = data.data || [];
@@ -847,7 +847,7 @@ async loadCategorySections() {
                 enlaceBoton: '#/catalogo'
             });
         }
-        view.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+        view.innerHTML = UI.loader('Cargando favoritos...');
         try {
             const data = await (await App.fetchAuth(`${App.apiBase}/favoritos`)).json();
             const productos = data.data?.productos || [];

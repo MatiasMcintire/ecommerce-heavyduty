@@ -37,7 +37,7 @@ const Pedidos = {
     async openPage() {
         const view = document.getElementById('view-generic');
         if (!view || requireLogin(view, 'Mis pedidos')) return;
-        view.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+        view.innerHTML = UI.loader('Cargando pedidos...');
         try {
             const data = await (await App.fetchAuth(`${App.apiBase}/pedidos`)).json();
             this.pedidos = data.success ? data.data : [];
@@ -97,7 +97,7 @@ const Pedidos = {
     async openDetail(id) {
         const view = document.getElementById('view-generic');
         if (!view || requireLogin(view, 'Detalle del pedido')) return;
-        view.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+        view.innerHTML = UI.loader('Cargando detalle...');
         let pedido;
         try {
             const data = await (await App.fetchAuth(`${App.apiBase}/pedidos/${id}`)).json();
@@ -156,7 +156,7 @@ const Perfil = {
     async openPage() {
         const view = document.getElementById('view-generic');
         if (!view || requireLogin(view, 'Mi perfil')) return;
-        view.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+        view.innerHTML = UI.loader('Cargando perfil...');
         let u;
         try {
             const data = await (await App.fetchAuth(`${App.apiBase}/auth/perfil`)).json();

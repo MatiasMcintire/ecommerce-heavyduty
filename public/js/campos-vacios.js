@@ -5,6 +5,22 @@
 
 const UI = {
 
+    // En campos-vacios.js, dentro del objeto UI
+
+    /**
+     * Renderiza un spinner de carga estándar (mismo estilo en toda la app)
+     * @param {string} mensaje - Texto opcional que aparece debajo del spinner
+     * @returns {string} HTML del loader
+     */
+    loader(mensaje = 'Cargando...') {
+        return `<div class="qc-loader">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">${mensaje}</span>
+            </div>
+            ${mensaje ? `<p>${mensaje}</p>` : ''}
+        </div>`;
+    },
+
     /**
      * Muestra un estado vacío en el contenedor especificado.
      * 
