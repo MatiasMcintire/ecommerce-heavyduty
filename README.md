@@ -252,7 +252,7 @@ ecommerce-project-s1-team-1-heavyduty/
 
 > ✅ **Inicio rápido verificado (Linux + MySQL nativo).** Estos son los pasos exactos con los que la app quedó corriendo end-to-end: registro → login → catálogo → carrito → checkout → pago → panel admin. Si solo quieres levantarla, usa esta opción.
 >
-> ℹ️ Nota: el proyecto carga la configuración desde un archivo **`.env`** (ver `.env.example`), **no** desde `config/database.php` con `define()`. Las opciones XAMPP/WAMP de más abajo describen un esquema antiguo; ajusta usando `.env` y el nombre de BD **`uct_ecommerce`**.
+> ℹ️ Nota: el proyecto carga la configuración desde un archivo **`.env`** (ver `.env.example`), **no** desde `config/database.php`. La base de datos se llama **`uct_ecommerce`** y se crea/puebla con **`database/setup.sql`** (encadena esquema + usuarios/cupones + catálogo QuadCore + imágenes). Abajo hay ejemplos para **Linux, Windows y macOS**.
 
 #### Opción recomendada: MySQL nativo + servidor embebido de PHP
 
@@ -271,9 +271,13 @@ sudo mysql -e "CREATE USER IF NOT EXISTS 'ecommerce_app'@'localhost' IDENTIFIED 
 sudo mysql -e "CREATE USER IF NOT EXISTS 'ecommerce_app'@'127.0.0.1' IDENTIFIED BY 'TU_PASS';"
 sudo mysql -e "GRANT ALL PRIVILEGES ON uct_ecommerce.* TO 'ecommerce_app'@'localhost'; GRANT ALL PRIVILEGES ON uct_ecommerce.* TO 'ecommerce_app'@'127.0.0.1'; FLUSH PRIVILEGES;"
 
-# 2. Cargar esquema y datos de demo
+# 2. Cargar TODO de una (esquema + usuarios/cupones + catálogo QuadCore + imágenes).
+#    setup.sql ya hace CREATE DATABASE + CREATE USER (localhost y 127.0.0.1) + los 4 seeds,
+#    así que en la práctica los pasos 1 y 2 se reducen a:  sudo mysql < database/setup.sql
 sudo mysql uct_ecommerce < database/schema.sql
 sudo mysql uct_ecommerce < database/seed.sql
+sudo mysql uct_ecommerce < database/seed_quadcore.sql   # catálogo real (95 productos, 20 categorías)
+sudo mysql uct_ecommerce < database/seed_imagenes.sql   # imágenes de los productos
 
 # 3. Configurar entorno
 cp .env.example .env
@@ -288,66 +292,55 @@ php -S localhost:8000 -t public router.php
 
 > ⚠️ El servidor embebido de PHP **no lee `.htaccess`**, por eso pasamos `router.php`: replica la regla de Apache (los archivos reales —css/js/imágenes— se sirven directo y todo lo demás va a `public/index.php`). Sin él, las rutas `/api/*` devuelven 404.
 
-#### Opción 1: XAMPP (Windows / Linux / macOS)
+#### 🪟 Windows (XAMPP)
 
-1. **Descargar e instalar XAMPP** desde [apachefriends.org](https://www.apachefriends.org)
-2. **Clonar el repositorio** en la carpeta `htdocs`:
+1. Instalar [XAMPP](https://www.apachefriends.org) (trae PHP + MySQL + phpMyAdmin) y [Git para Windows](https://git-scm.com/download/win).
+2. En el **XAMPP Control Panel**, arrancar **MySQL**.
+3. Clonar y configurar (en Git Bash o la Shell de XAMPP):
    ```bash
-   cd C:\xampp\htdocs         # Windows
-   cd /opt/lampp/htdocs        # Linux
-   cd /Applications/XAMPP/htdocs  # macOS
-
-   git clone https://github.com/dd-software/ecommerce-project-s1.git ecommerce
-   cd ecommerce
-   git checkout feature/full-platform
+   git clone https://github.com/dd-software/ecommerce-project-s1.git
+   cd ecommerce-project-s1
+   git checkout team-1-heavyduty
+   cp .env.example .env
    ```
-3. **Configurar base de datos:**
-   - Abrir XAMPP Control Panel y arrancar **Apache** y **MySQL**
-   - Abrir phpMyAdmin: http://localhost/phpmyadmin
-   - Crear base de datos: `ecommerce_uct` (utf8mb4_general_ci)
-   - Importar `database/schema.sql` desde la pestaña Importar
-   - Importar `database/seed.sql` para datos de prueba
-4. **Configurar la conexión:**
-   - Copiar `config/database.example.php` → `config/database.php`
-   - Editar credenciales (por defecto XAMPP: `root` / sin contraseña):
-     ```php
-     define('DB_HOST', 'localhost');
-     define('DB_NAME', 'ecommerce_uct');
-     define('DB_USER', 'root');
-     define('DB_PASS', '');
-     ```
-5. **Abrir en el navegador:** http://localhost/ecommerce/public
-
-#### Opción 2: WAMP (Windows)
-
-1. **Descargar e instalar WAMP** desde [wampserver.com](https://www.wampserver.com)
-2. **Clonar el repositorio** en la carpeta `www`:
+   En `.env`, usar el root de XAMPP (**sin contraseña**):
+   `DB_HOST=127.0.0.1`, `DB_USER=root`, `DB_PASS=`, `DB_NAME=uct_ecommerce`, y un `JWT_SECRET` de 32+ caracteres.
+4. Crear y poblar la BD (parado en la carpeta del proyecto):
    ```bash
-   cd C:\wamp64\www
-   git clone https://github.com/dd-software/ecommerce-project-s1.git ecommerce
-   cd ecommerce
-   git checkout feature/full-platform
+   mysql -u root < database/setup.sql
+   # si "mysql" no se reconoce:  C:\xampp\mysql\bin\mysql.exe -u root < database/setup.sql
    ```
-3. **Configurar base de datos:**
-   - Arrancar WAMP (icono verde en la bandeja)
-   - Abrir phpMyAdmin: http://localhost/phpmyadmin
-   - Crear base de datos `ecommerce_uct` (utf8mb4_general_ci)
-   - Importar `database/schema.sql` y `database/seed.sql`
-4. **Configurar la conexión** en `config/database.php` (WAMP default: `root` / sin contraseña)
-5. **Abrir en el navegador:** http://localhost/ecommerce/public
+   > Alternativa gráfica (phpMyAdmin): creá la BD `uct_ecommerce` e importá **en orden** `schema.sql` → `seed.sql` → `seed_quadcore.sql` → `seed_imagenes.sql`. (phpMyAdmin no soporta `SOURCE`, por eso ahí no sirve `setup.sql`.)
+5. Levantar:
+   ```bash
+   php -S localhost:8000 -t public router.php
+   # si "php" no se reconoce:  C:\xampp\php\php.exe -S localhost:8000 -t public router.php
+   ```
+   Abrir **http://localhost:8000**
 
-#### Opción 3: Servidor de desarrollo PHP embebido
+#### 🍎 macOS (Homebrew)
 
 ```bash
+# Requisitos
+brew install php mysql git
+brew services start mysql
+
+# Proyecto
 git clone https://github.com/dd-software/ecommerce-project-s1.git
 cd ecommerce-project-s1
-git checkout feature/full-platform
+git checkout team-1-heavyduty
+cp .env.example .env          # editar DB_* y JWT_SECRET
 
-# Iniciar servidor PHP embebido (router.php enruta /api/* igual que .htaccess)
-php -S localhost:8000 -t public router.php
+# BD + datos (setup.sql crea BD, usuario y carga los 4 seeds)
+mysql -u root < database/setup.sql
+
+# Servir
+php -S localhost:8000 -t public router.php   # → http://localhost:8000
 ```
 
-> ⚠️ El servidor embebido de PHP es útil para desarrollo rápido y **no** lee `.htaccess`; por eso se usa `router.php`. Para producción usa Apache/Nginx con el `.htaccess` incluido.
+> El usuario `ecommerce_app` queda creado con la clave `app_password_here` (definida en `setup.sql` / `.env.example`). Para una clave propia, cambiala en ambos lados. En local también podés usar `root` en el `.env`.
+
+> ⚠️ El servidor embebido de PHP **no** lee `.htaccess`; por eso siempre se sirve con `router.php` (replica el ruteo de Apache). Para producción usá Apache/Nginx con el `.htaccess` incluido.
 
 ---
 
@@ -395,17 +388,19 @@ sudo mysql -u root -p
 ```
 
 ```sql
-CREATE DATABASE ecommerce_uct CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'ecommerce_user'@'localhost' IDENTIFIED BY 'contraseña_segura_aqui';
-GRANT ALL PRIVILEGES ON ecommerce_uct.* TO 'ecommerce_user'@'localhost';
+CREATE DATABASE uct_ecommerce CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'ecommerce_app'@'localhost' IDENTIFIED BY 'contraseña_segura_aqui';
+GRANT ALL PRIVILEGES ON uct_ecommerce.* TO 'ecommerce_app'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 ```
 
 ```bash
-# Importar schema y datos
-mysql -u ecommerce_user -p ecommerce_uct < database/schema.sql
-mysql -u ecommerce_user -p ecommerce_uct < database/seed.sql
+# Importar esquema + TODOS los datos (catálogo real QuadCore + imágenes)
+mysql -u ecommerce_app -p uct_ecommerce < database/schema.sql
+mysql -u ecommerce_app -p uct_ecommerce < database/seed.sql
+mysql -u ecommerce_app -p uct_ecommerce < database/seed_quadcore.sql
+mysql -u ecommerce_app -p uct_ecommerce < database/seed_imagenes.sql
 ```
 
 #### 4. Desplegar la Aplicación
@@ -415,7 +410,7 @@ mysql -u ecommerce_user -p ecommerce_uct < database/seed.sql
 cd /var/www
 sudo git clone https://github.com/dd-software/ecommerce-project-s1.git ecommerce
 cd ecommerce
-sudo git checkout feature/full-platform
+sudo git checkout team-1-heavyduty
 
 # Configurar permisos
 sudo chown -R www-data:www-data /var/www/ecommerce
@@ -454,28 +449,27 @@ sudo a2ensite ecommerce.conf
 sudo systemctl reload apache2
 ```
 
-#### 6. Configurar Variables de Entorno
+#### 6. Configurar Variables de Entorno (`.env`)
+
+La configuración va en un archivo **`.env`** en la raíz del proyecto (no en `config/database.php`).
 
 ```bash
 cd /var/www/ecommerce
-cp config/database.example.php config/database.php
-
-# Editar con las credenciales de producción
-sudo nano config/database.php
+cp .env.example .env
+sudo nano .env
 ```
 
-```php
-<?php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'ecommerce_uct');
-define('DB_USER', 'ecommerce_user');
-define('DB_PASS', 'contraseña_segura_aqui');
-
-define('APP_ENV', 'production');
-define('APP_DEBUG', false);
-define('APP_URL', 'https://tudominio.com');
-define('JWT_SECRET', 'clave-secreta-jwt-de-al-menos-32-caracteres');
-define('JWT_EXPIRY', 3600);
+```ini
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=uct_ecommerce
+DB_USER=ecommerce_app
+DB_PASS=contraseña_segura_aqui
+JWT_SECRET=clave-secreta-aleatoria-de-32-o-mas-caracteres
+JWT_EXPIRY=3600
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://tudominio.com
 ```
 
 #### 7. HTTPS con Certbot (SSL Gratuito)

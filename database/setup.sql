@@ -8,11 +8,13 @@ CREATE DATABASE IF NOT EXISTS uct_ecommerce
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-CREATE USER IF NOT EXISTS 'ecommerce_app'@'localhost'
-  IDENTIFIED BY 'app_password_here';
+-- Se crea para 'localhost' (socket) Y '127.0.0.1' (TCP): el código conecta por
+-- TCP a 127.0.0.1, y un usuario solo '@localhost' daría "access denied".
+CREATE USER IF NOT EXISTS 'ecommerce_app'@'localhost'   IDENTIFIED BY 'app_password_here';
+CREATE USER IF NOT EXISTS 'ecommerce_app'@'127.0.0.1'   IDENTIFIED BY 'app_password_here';
 
-GRANT ALL PRIVILEGES ON uct_ecommerce.*
-  TO 'ecommerce_app'@'localhost';
+GRANT ALL PRIVILEGES ON uct_ecommerce.* TO 'ecommerce_app'@'localhost';
+GRANT ALL PRIVILEGES ON uct_ecommerce.* TO 'ecommerce_app'@'127.0.0.1';
 
 FLUSH PRIVILEGES;
 
