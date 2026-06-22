@@ -53,6 +53,9 @@ define('SMTP_USER', $_ENV['SMTP_USER'] ?? '');
 define('SMTP_PASS', $_ENV['SMTP_PASS'] ?? '');
 define('SMTP_FROM', $_ENV['SMTP_FROM'] ?? 'noreply@example.com');
 
+// MercadoPago: Access Token (producción o test). Vacío/placeholder => pago simulado.
+define('MP_ACCESS_TOKEN', $_ENV['MP_ACCESS_TOKEN'] ?? '');
+
 // Configuración de error según entorno
 if (APP_DEBUG) {
     error_reporting(E_ALL);
