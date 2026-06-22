@@ -69,9 +69,13 @@ const Carrito = {
         if (!container) return;
 
         if (this.isEmpty) {
-            empty?.classList.remove('d-none');
-            container.classList.add('d-none');
-            summary?.classList.add('d-none');
+            UI.mostrarVacio(empty, {
+                icono: 'bi-cart-x',
+                titulo: 'Carrito vacío',
+                descripcion: 'Agrega productos desde el catálogo.',
+                textoBoton: 'Ver catálogo',
+                enlaceBoton: '#/catalogo'
+            });
             return;
         }
         empty?.classList.add('d-none');
@@ -116,12 +120,13 @@ const Carrito = {
         if (!root) return;
 
         if (this.isEmpty) {
-            root.innerHTML = `
-                <div class="empty-state">
-                    <i class="bi bi-cart-x"></i>
-                    <h5>Tu carrito está vacío</h5>
-                    <a href="#/catalogo" class="btn btn-accent btn-sm mt-2">Ir al catálogo</a>
-                </div>`;
+            UI.mostrarVacio(root, {
+                icono: 'bi-cart-x',
+                titulo: 'Tu carrito está vacío',
+                descripcion: 'Agrega productos para comenzar tu compra.',
+                textoBoton: 'Ir al catálogo',
+                enlaceBoton: '#/catalogo'
+            });
             return;
         }
 

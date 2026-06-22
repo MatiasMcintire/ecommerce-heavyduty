@@ -49,10 +49,13 @@ const Pedidos = {
     render() {
         const view = document.getElementById('view-generic');
         if (!this.pedidos.length) {
-            view.innerHTML = `<div class="empty-state"><i class="bi bi-bag"></i>
-                <h5>Aún no has realizado compras</h5>
-                <p class="text-muted">Explora nuestro catálogo y encuentra lo que necesitas.</p>
-                <a href="#/catalogo" class="btn btn-accent btn-sm mt-2">Ir al catálogo</a></div>`;
+            UI.mostrarVacio(view, {
+                icono: 'bi-bag',
+                titulo: 'No tienes pedidos aún',
+                descripcion: 'Cuando realices tu primera compra, aparecerá aquí el historial.',
+                textoBoton: 'Ir al catálogo',
+                enlaceBoton: '#/catalogo'
+            });
             return;
         }
 

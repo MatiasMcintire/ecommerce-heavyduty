@@ -251,7 +251,16 @@ const Catalogo = {
         try {
             const data = await (await fetch(`${App.apiBase}/catalogo/ofertas`)).json();
             const ofertas = data.data || [];
-            if (!ofertas.length) { box.innerHTML = '<p class="text-muted">No hay ofertas por ahora.</p>'; return; }
+            if (!ofertas.length) { 
+                UI.mostrarVacio(box, {
+                icono: 'bi-tag',
+                titulo: 'Sin ofertas por ahora',
+                descripcion: 'Pronto tendremos promociones disponibles. ¡Vuelve a consultar!',
+                textoBoton: 'Ver catálogo',
+                enlaceBoton: '#/catalogo',
+                variante: 'inline'
+            });
+            }
             // Grandes = productos importantes: mayor AHORRO absoluto (no solo %).
             // Chicas = el resto de las mejores ofertas (vienen ordenadas por % desc).
             const big = [...ofertas].sort((a, b) => (b.precio_anterior - b.precio) - (a.precio_anterior - a.precio)).slice(0, 2);
@@ -351,7 +360,17 @@ const Catalogo = {
                 <div class="qc-carousel" id="home-cat-${c.id}"></div>`).join('');
             conProductos.forEach(c =>
                 this.loadCarousel(`home-cat-${c.id}`, `${App.apiBase}/catalogo?categoria=${c.id}&por_pagina=10`));
-        } catch (e) { box.innerHTML = ''; }
+        } catch (e) { box.innerHTML = ''; };
+        
+        if (conProductos.length === 0) {
+            UI.mostrarVacio(box, {
+                icono: 'bi-grid',
+                titulo: 'Pronto más productos',
+                descripcion: 'Estamos ampliando nuestro catálogo. Vuelve pronto.',
+                variante: 'inline'
+            });
+    return;
+}
     },
 
     /**
@@ -362,14 +381,14 @@ const Catalogo = {
         if (!container) return;
 
         if (products.length === 0) {
-            container.innerHTML = `
-                <div class="col-12">
-                    <div class="empty-state">
-                        <i class="bi bi-search"></i>
-                        <h5>No se encontraron productos</h5>
-                        <p class="text-muted">Intenta con otros filtros o términos de búsqueda.</p>
-                    </div>
-                </div>`;
+            UI.mostrarVacio(container, {
+                icono: 'bi-search',
+                titulo: 'No se encontraron productos',
+                descripcion: 'Prueba con otros términos o quita los filtros aplicados.',
+                textoBoton: 'Limpiar filtros',
+                enlaceBoton: '#/catalogo',
+                claseBoton: 'btn-outline-uct'
+            });
             return;
         }
 
@@ -814,9 +833,13 @@ const Catalogo = {
         const view = document.getElementById('view-generic');
         if (!view) return;
         if (!App.token) {
-            view.innerHTML = `<div class="empty-state"><i class="bi bi-heart"></i>
-                <h5>Mis favoritos</h5><p class="text-muted">Inicia sesión para ver tu lista de favoritos.</p></div>`;
-            return;
+            UI.mostrarVacio(view, {
+                icono: 'bi-heart',
+                titulo: 'Mis favoritos',
+                descripcion: App.token ? 'Aún no tienes productos favoritos. Explora el catálogo.' : 'Inicia sesión para ver tu lista de favoritos.',
+                textoBoton: 'Ir al catálogo',
+                enlaceBoton: '#/catalogo'
+            });
         }
         view.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
         try {
