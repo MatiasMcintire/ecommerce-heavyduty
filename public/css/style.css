@@ -344,10 +344,10 @@ a:hover { color: var(--qc-red-hover); }
     padding: 20px;
     background: #fff;
     position: sticky;
-    top: 124px;
+    top: 148px;   /* debajo del header completo (utilbar + top + nav ≈ 138px) */
     /* tope de alto + scroll propio: el sidebar largo (20 categorías + marcas)
        ya no estira la página y deja el hueco bajo los productos */
-    max-height: calc(100vh - 140px);
+    max-height: calc(100vh - 164px);
     overflow-y: auto;
 }
 .qc-filters-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 4px; }
@@ -707,7 +707,7 @@ div.cart-item-img { display: flex; align-items: center; justify-content: center;
 .cart-keep-shopping { display: inline-block; margin-top: 16px; color: var(--qc-gray); text-decoration: none; font-weight: 600; }
 .cart-keep-shopping:hover { color: var(--qc-red); }
 
-.cart-summary-card { background: #fff; border: 1px solid var(--qc-border); border-radius: var(--qc-radius); padding: 22px; position: sticky; top: 90px; }
+.cart-summary-card { background: #fff; border: 1px solid var(--qc-border); border-radius: var(--qc-radius); padding: 22px; position: sticky; top: 148px; }
 .cart-summary-title { text-transform: uppercase; letter-spacing: .5px; font-weight: 700; font-size: 13px; color: var(--qc-black); margin-bottom: 16px; }
 .cart-total-amount { font-family: 'Poppins', sans-serif; font-size: 26px; font-weight: 700; color: var(--qc-red); }
 
@@ -755,7 +755,7 @@ div.cart-item-img { display: flex; align-items: center; justify-content: center;
 
 /* ── Panel admin ── */
 .admin-layout { display: flex; gap: 24px; align-items: flex-start; }
-.admin-sidebar { flex: 0 0 220px; background: #fff; border: 1px solid var(--qc-border); border-radius: var(--qc-radius); padding: 14px; position: sticky; top: 90px; }
+.admin-sidebar { flex: 0 0 220px; background: #fff; border: 1px solid var(--qc-border); border-radius: var(--qc-radius); padding: 14px; position: sticky; top: 148px; }
 .admin-sidebar-title { text-transform: uppercase; letter-spacing: .5px; font-size: 11px; color: var(--qc-gray); font-weight: 700; padding: 4px 10px 10px; margin: 0; }
 .admin-nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--qc-black); font-weight: 600; font-size: 14px; cursor: pointer; text-decoration: none; transition: .12s; }
 .admin-nav-link:hover { background: var(--qc-gray-light); }

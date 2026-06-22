@@ -58,11 +58,11 @@ const Auth = {
                     // SPA: cerrar modal, actualizar UI y navegar sin recargar
                     bootstrap.Modal.getInstance(document.getElementById('loginModal'))?.hide();
                     App.updateNavbar();
-                    if (window.Carrito) Carrito.loadCart();
+                    if (typeof Carrito !== 'undefined') Carrito.loadCart();
                     App.showToast?.('¡Bienvenido de vuelta!', 'success');
                     if (data.data.usuario.rol === 'admin') {
                         location.hash = '#/admin';
-                    } else if (window.Router) {
+                    } else if (typeof Router !== "undefined") {
                         Router.render();   // refresca la vista actual ya con sesión iniciada
                     }
                 } else {
@@ -140,9 +140,9 @@ const Auth = {
                     App.setAuth(data.data.token, data.data.usuario);
                     bootstrap.Modal.getInstance(document.getElementById('registerModal'))?.hide();
                     App.updateNavbar();
-                    if (window.Carrito) Carrito.loadCart();
+                    if (typeof Carrito !== 'undefined') Carrito.loadCart();
                     App.showToast?.('¡Cuenta creada! Bienvenido a QuadCore', 'success');
-                    if (window.Router) Router.render();
+                    if (typeof Router !== "undefined") Router.render();
                 } else {
                     if (errorDiv) {
                         errorDiv.textContent = data.error?.message || 'Error al registrar.';
