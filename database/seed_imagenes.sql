@@ -107,3 +107,13 @@ UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1629429407759
 UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600' WHERE slug IN ('multimetro-digital','tester-cables-red-rj45');
 -- Cables extra
 UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1601524909162-ae8725290836?w=600' WHERE slug IN ('cable-displayport-14-2m','cable-usbc-100w-2m','cable-red-cat6-3m');
+
+-- ── Rango medio: imágenes (pool verificado por categoría) ──
+UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=600' WHERE slug IN ('cpu-intel-i7-13700k','cpu-amd-ryzen7-7700x');
+UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600' WHERE slug IN ('placa-asus-rog-z790','ram-corsair-dominator-64gb','fuente-corsair-rm850x','gpu-rtx-4060-ti-16gb','gpu-rx-7600-8gb');
+UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600' WHERE slug IN ('monitor-lg-ultrafine-32-4k','monitor-samsung-odyssey-g5-27','monitor-ultrawide-34-144hz');
+UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600' WHERE slug IN ('notebook-asus-tuf-f15','notebook-lenovo-thinkpad-e14');
+UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600' WHERE slug IN ('iphone-14-128gb','samsung-galaxy-s23-fe','motorola-edge-40');
+UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600' WHERE slug='smart-tv-lg-50-4k';
+UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600' WHERE slug IN ('soundbar-samsung-b550','audifonos-bose-quietcomfort','airpods-pro-2');
+UPDATE productos SET imagen_url='https://images.unsplash.com/photo-1629429407759-01cd3d7cfb38?w=600' WHERE slug='teclado-logitech-g-pro';

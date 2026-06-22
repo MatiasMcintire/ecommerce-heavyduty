@@ -32,7 +32,7 @@ class CatalogoController
             $enStock   = $request->getQuery('en_stock');
             $ordenar   = $request->getQuery('ordenar', 'relevancia');
             $pagina    = max(1, (int)($request->getQuery('pagina', 1)));
-            $porPagina = min(100, max(1, (int)($request->getQuery('por_pagina', 20))));
+            $porPagina = min(300, max(1, (int)($request->getQuery('por_pagina', 20))));
 
             // Multi-selección (listas separadas por coma): categorias=1,2  marcas=AMD,Corsair
             $categoriaIds = $this->csvToList($request->getQuery('categorias'));

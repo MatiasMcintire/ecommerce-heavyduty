@@ -126,7 +126,7 @@ const Catalogo = {
         if (this.filters.marcas?.length) params.set('marcas', this.filters.marcas.join(','));
         if (this.filters.q) params.set('q', this.filters.q);
         if (this.filters.en_stock) params.set('en_stock', '1');
-        params.set('por_pagina', 100);
+        params.set('por_pagina', 300);   // trae todo el set para el histograma (exacto hasta 300 prods)
         try {
             const resp = await fetch(`${App.apiBase}/catalogo?${params.toString()}`);
             const data = await resp.json();

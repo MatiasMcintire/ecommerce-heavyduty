@@ -228,3 +228,40 @@ UPDATE productos SET precio_anterior = 59990   WHERE slug = 'juego-god-of-war-ra
 UPDATE productos SET precio_anterior = 199990  WHERE slug = 'silla-gamer-quadcore-pro';
 UPDATE productos SET precio_anterior = 84990   WHERE slug = 'headset-hyperx-cloud-2';
 UPDATE productos SET precio_anterior = 64990   WHERE slug = 'router-tplink-ax1500';
+
+-- ============================================================
+-- Productos de rango medio ($120k–$800k) para que el histograma de precios
+-- se vea parejo + boost de stock general.
+-- ============================================================
+INSERT INTO productos (id_categoria, nombre, slug, descripcion, precio, stock, stock_minimo, marca, imagen_url, activo, meta_descripcion) VALUES
+(1,  'Procesador Intel Core i7-13700K', 'cpu-intel-i7-13700k', 'Procesador Intel Core i7-13700K, 16 núcleos, socket LGA1700, ideal gaming y creación.', 389990, 12, 4, 'Intel', NULL, 1, 'Intel Core i7-13700K.'),
+(1,  'Procesador AMD Ryzen 7 7700X', 'cpu-amd-ryzen7-7700x', 'Procesador AMD Ryzen 7 7700X, 8 núcleos / 16 hilos, socket AM5.', 349990, 13, 4, 'AMD', NULL, 1, 'AMD Ryzen 7 7700X.'),
+(1,  'Placa Madre ASUS ROG Strix Z790', 'placa-asus-rog-z790', 'Placa madre ASUS ROG Strix Z790, LGA1700, DDR5, PCIe 5.0, WiFi.', 289990, 9, 3, 'ASUS', NULL, 1, 'Placa ASUS ROG Z790.'),
+(1,  'Memoria Corsair Dominator 64GB DDR5', 'ram-corsair-dominator-64gb', 'Kit Corsair Dominator 64GB (2x32GB) DDR5 6000MHz RGB.', 249990, 10, 3, 'Corsair', NULL, 1, 'RAM Corsair Dominator 64GB.'),
+(1,  'Fuente Corsair RM850x 850W Gold', 'fuente-corsair-rm850x', 'Fuente Corsair RM850x 850W 80+ Gold, full modular, silenciosa.', 129990, 14, 4, 'Corsair', NULL, 1, 'Fuente Corsair RM850x 850W.'),
+(13, 'Tarjeta de Video RTX 4060 Ti 16GB', 'gpu-rtx-4060-ti-16gb', 'GPU NVIDIA RTX 4060 Ti 16GB GDDR6, gaming 1080p/1440p con DLSS 3.', 479990, 8, 3, 'NVIDIA', NULL, 1, 'RTX 4060 Ti 16GB.'),
+(13, 'Tarjeta de Video AMD RX 7600 8GB', 'gpu-rx-7600-8gb', 'GPU AMD Radeon RX 7600 8GB GDDR6, excelente para 1080p.', 329990, 11, 3, 'AMD', NULL, 1, 'RX 7600 8GB.'),
+(12, 'Monitor LG UltraFine 32" 4K', 'monitor-lg-ultrafine-32-4k', 'Monitor LG UltraFine 32" UHD 4K IPS, HDR10, ideal diseño y multimedia.', 299990, 9, 3, 'LG', NULL, 1, 'Monitor LG 32 4K.'),
+(12, 'Monitor Samsung Odyssey G5 27"', 'monitor-samsung-odyssey-g5-27', 'Monitor gamer Samsung Odyssey G5 27" QHD 165Hz curvo.', 279990, 10, 3, 'Samsung', NULL, 1, 'Samsung Odyssey G5 27.'),
+(12, 'Monitor Gamer Ultrawide 34" 144Hz', 'monitor-ultrawide-34-144hz', 'Monitor ultrawide 34" QHD 144Hz, inmersión total para juegos y trabajo.', 499990, 6, 2, 'LG', NULL, 1, 'Monitor ultrawide 34 144Hz.'),
+(7,  'Notebook ASUS TUF Gaming F15', 'notebook-asus-tuf-f15', 'Notebook ASUS TUF Gaming F15, i7, 16GB, RTX 4060, 1TB SSD, 144Hz.', 699990, 7, 2, 'ASUS', NULL, 1, 'ASUS TUF Gaming F15.'),
+(7,  'Notebook Lenovo ThinkPad E14', 'notebook-lenovo-thinkpad-e14', 'Notebook Lenovo ThinkPad E14, i5, 16GB, 512GB SSD, ideal profesional.', 589990, 9, 3, 'Lenovo', NULL, 1, 'Lenovo ThinkPad E14.'),
+(10, 'iPhone 14 128GB', 'iphone-14-128gb', 'Apple iPhone 14 128GB, chip A15 Bionic, cámara dual 12MP.', 749990, 10, 3, 'Apple', NULL, 1, 'iPhone 14 128GB.'),
+(10, 'Samsung Galaxy S23 FE 256GB', 'samsung-galaxy-s23-fe', 'Samsung Galaxy S23 FE 256GB, pantalla AMOLED 120Hz, triple cámara.', 549990, 11, 3, 'Samsung', NULL, 1, 'Galaxy S23 FE.'),
+(10, 'Motorola Edge 40 256GB', 'motorola-edge-40', 'Motorola Edge 40 256GB, pantalla pOLED 144Hz, carga 68W.', 399990, 13, 4, 'Motorola', NULL, 1, 'Motorola Edge 40.'),
+(11, 'Smart TV LG 50" 4K UHD', 'smart-tv-lg-50-4k', 'Smart TV LG 50" 4K UHD, webOS, ThinQ AI, HDR.', 349990, 8, 3, 'LG', NULL, 1, 'Smart TV LG 50 4K.'),
+(11, 'Soundbar Samsung B550 2.1', 'soundbar-samsung-b550', 'Barra de sonido Samsung B550 2.1ch con subwoofer inalámbrico.', 199990, 10, 3, 'Samsung', NULL, 1, 'Soundbar Samsung B550.'),
+(11, 'Audífonos Bose QuietComfort', 'audifonos-bose-quietcomfort', 'Audífonos Bose QuietComfort con cancelación de ruido y gran confort.', 249990, 9, 3, 'Bose', NULL, 1, 'Bose QuietComfort.'),
+(11, 'AirPods Pro 2da Generación', 'airpods-pro-2', 'Apple AirPods Pro 2da gen, cancelación activa de ruido, estuche USB-C.', 229990, 14, 4, 'Apple', NULL, 1, 'AirPods Pro 2.'),
+(2,  'Teclado Mecánico Logitech G Pro', 'teclado-logitech-g-pro', 'Teclado mecánico gamer Logitech G Pro, switches GX, RGB, compacto.', 119990, 12, 4, 'Logitech', NULL, 1, 'Teclado Logitech G Pro.');
+
+-- Ofertas de los nuevos de rango medio
+UPDATE productos SET precio_anterior = 449990 WHERE slug = 'cpu-intel-i7-13700k';
+UPDATE productos SET precio_anterior = 569990 WHERE slug = 'gpu-rtx-4060-ti-16gb';
+UPDATE productos SET precio_anterior = 359990 WHERE slug = 'monitor-lg-ultrafine-32-4k';
+UPDATE productos SET precio_anterior = 829990 WHERE slug = 'notebook-asus-tuf-f15';
+UPDATE productos SET precio_anterior = 449990 WHERE slug = 'samsung-galaxy-s23-fe';
+UPDATE productos SET precio_anterior = 299990 WHERE slug = 'audifonos-bose-quietcomfort';
+
+-- Boost de stock general (más inventario; respeta el agotado de demo)
+UPDATE productos SET stock = stock + 15 WHERE stock > 0;
