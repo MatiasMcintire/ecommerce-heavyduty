@@ -176,13 +176,21 @@ const Checkout = {
             const pedido = orderData.data;
             const pedidoId = pedido.id || pedido.pedido_id;
 
-            const payResp = await App.fetchAuth(`${App.apiBase}/pagos/procesar`, {
+            const payResp = await App.fetchAuth(`${App.apiBase}/pagos/iniciar`, {
                 method: 'POST',
-                body: JSON.stringify({ pedido_id: pedidoId, metodo_pago: metodo, token_tarjeta: 'tok_sim_' + Date.now() })
+                body: JSON.stringify({ pedido_id: pedidoId, email: document.getElementById('co-email').value.trim() })
             });
             const payData = await payResp.json();
+            if (!payData.success) throw new Error(payData.error?.message || 'No se pudo iniciar el pago');
 
-            if (payData.success && payData.data.estado === 'aprobado') {
+            // MercadoPago: salimos del SPA hacia el checkout de MP. Vuelve a /?pago=ok&pedido=...
+            if (payData.data.modo === 'mercadopago' && payData.data.init_point) {
+                window.location.href = payData.data.init_point;
+                return;
+            }
+
+            // Simulado (sin credenciales MP): aprobado al instante.
+            if (payData.data.estado === 'aprobado') {
                 this.lastOrder = {
                     id: pedidoId,
                     total: pedido.total_formateado || App.formatPrice(pedido.total),
@@ -194,7 +202,7 @@ const Checkout = {
             } else {
                 // El carrito sigue activo tras un rechazo (el checkout ya no lo vacía),
                 // así que reintentar crea un pedido nuevo del mismo carrito.
-                show('Pago rechazado: ' + (payData.data?.mensaje || 'Inténtalo nuevamente'));
+                show('No se pudo procesar el pago. Inténtalo nuevamente.');
                 btn.disabled = false;
                 btn.innerHTML = 'Reintentar pago';
             }
