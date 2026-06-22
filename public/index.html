@@ -39,21 +39,42 @@
       <button type="submit" aria-label="Buscar"><i class="bi bi-search"></i></button>
     </form>
     <div class="qc-header-actions">
-      <a href="#" id="auth-links" class="qc-account" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person"></i><span><small>Hola, ingresa</small><strong>Mi Cuenta</strong></span></a>
-      <div class="dropdown d-none" id="user-links">
-        <a href="#" class="dropdown-toggle" role="button" data-bs-toggle="dropdown">
-          <i class="bi bi-person-circle"></i> <span id="user-name">Usuario</span>
+      <div class="dropdown" id="account">
+        <a href="#" class="qc-account dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person"></i>
+          <span><small id="account-greet-sm">Hola, ingresa</small><strong id="account-greet">Mi Cuenta</strong></span>
         </a>
-        <ul class="dropdown-menu dropdown-menu-end qc-dropdown">
-          <li class="qc-dropdown-head"><small>Hola,</small><strong id="user-name-menu">Mi cuenta</strong></li>
-          <li class="qc-dropdown-section">Tu cuenta</li>
-          <li><a class="dropdown-item" href="#" data-view="perfil"><i class="bi bi-person"></i> Mi perfil</a></li>
-          <li><a class="dropdown-item" href="#" data-view="pedidos"><i class="bi bi-bag"></i> Mis compras</a></li>
-          <li><a class="dropdown-item" href="#" data-view="favoritos"><i class="bi bi-heart"></i> Mis favoritos</a></li>
-          <li><a class="dropdown-item d-none" href="#/admin" id="admin-link"><i class="bi bi-speedometer2"></i> Panel admin</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#" id="btn-logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li>
-        </ul>
+        <div class="dropdown-menu dropdown-menu-end qc-dropdown qc-account-menu">
+          <!-- Invitado: identificarse / registrarse -->
+          <div id="account-guest" class="qc-account-cta">
+            <button type="button" class="btn btn-accent w-100" data-bs-toggle="modal" data-bs-target="#loginModal">Identifícate</button>
+            <p>¿Cliente nuevo? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Regístrate</a></p>
+          </div>
+          <!-- Logueado: saludo -->
+          <div id="account-user" class="qc-dropdown-head d-none"><small>Hola,</small><strong id="user-name-menu">Mi cuenta</strong></div>
+          <!-- Dos columnas -->
+          <div class="qc-account-cols">
+            <div>
+              <div class="qc-dropdown-section">Tu cuenta</div>
+              <a class="dropdown-item" href="#" data-view="perfil"><i class="bi bi-person"></i> Mi perfil</a>
+              <a class="dropdown-item" href="#" data-view="pedidos"><i class="bi bi-bag"></i> Mis compras</a>
+              <a class="dropdown-item" href="#" data-view="favoritos"><i class="bi bi-heart"></i> Mis favoritos</a>
+              <a class="dropdown-item d-none" href="#/admin" id="admin-link"><i class="bi bi-speedometer2"></i> Panel admin</a>
+            </div>
+            <div>
+              <div class="qc-dropdown-section">Ayuda y más</div>
+              <a class="dropdown-item" href="#/despacho"><i class="bi bi-truck"></i> Despacho</a>
+              <a class="dropdown-item" href="#/garantia"><i class="bi bi-shield-check"></i> Garantía</a>
+              <a class="dropdown-item" href="#/medios-pago"><i class="bi bi-credit-card"></i> Métodos de pago</a>
+              <a class="dropdown-item" href="#/contacto"><i class="bi bi-headset"></i> Contacto</a>
+            </div>
+          </div>
+          <!-- Logueado: cerrar sesión -->
+          <div id="account-logout" class="d-none">
+            <hr class="dropdown-divider">
+            <a class="dropdown-item" href="#" id="btn-logout"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a>
+          </div>
+        </div>
       </div>
       <a href="#" class="qc-cart-link" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
         <i class="bi bi-cart3"></i>

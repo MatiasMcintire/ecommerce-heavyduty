@@ -26,31 +26,31 @@ const App = {
      * Actualiza la barra de navegación según estado de autenticación
      */
     updateNavbar() {
-        const authLinks = document.getElementById('auth-links');
-        const userLinks = document.getElementById('user-links');
+        // Un solo dropdown #account: alterna estado invitado / logueado
+        const guest = document.getElementById('account-guest');
+        const userHead = document.getElementById('account-user');
+        const logout = document.getElementById('account-logout');
         const adminLink = document.getElementById('admin-link');
-        const userName = document.getElementById('user-name');
-        const cartCount = document.getElementById('cart-count');
+        const greet = document.getElementById('account-greet');
+        const greetSm = document.getElementById('account-greet-sm');
+        const userNameMenu = document.getElementById('user-name-menu');
 
         if (this.user) {
-            if (authLinks) authLinks.classList.add('d-none');
-            if (userLinks) userLinks.classList.remove('d-none');
-            if (userName) userName.textContent = this.user.nombre || this.user.email;
-            const userNameMenu = document.getElementById('user-name-menu');
-            if (userNameMenu) userNameMenu.textContent = this.user.nombre || this.user.email;
-
-            // Mostrar link admin solo si es admin
-            if (adminLink) {
-                if (this.user.rol === 'admin') {
-                    adminLink.classList.remove('d-none');
-                } else {
-                    adminLink.classList.add('d-none');
-                }
-            }
+            const nombre = this.user.nombre || this.user.email;
+            guest?.classList.add('d-none');
+            userHead?.classList.remove('d-none');
+            logout?.classList.remove('d-none');
+            if (greetSm) greetSm.textContent = 'Hola,';
+            if (greet) greet.textContent = nombre;
+            if (userNameMenu) userNameMenu.textContent = nombre;
+            adminLink?.classList.toggle('d-none', this.user.rol !== 'admin');
         } else {
-            if (authLinks) authLinks.classList.remove('d-none');
-            if (userLinks) userLinks.classList.add('d-none');
-            if (adminLink) adminLink.classList.add('d-none');
+            guest?.classList.remove('d-none');
+            userHead?.classList.add('d-none');
+            logout?.classList.add('d-none');
+            if (greetSm) greetSm.textContent = 'Hola, ingresa';
+            if (greet) greet.textContent = 'Mi Cuenta';
+            adminLink?.classList.add('d-none');
         }
     },
 
