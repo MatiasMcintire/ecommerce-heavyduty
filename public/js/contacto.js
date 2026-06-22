@@ -75,10 +75,10 @@ const Contacto = {
                                 <li><i class="bi bi-clock"></i><div><strong>Horario</strong><span>Lun a Vie 9–19h · Sáb 10–14h</span></div></li>
                             </ul>
                             <div class="leo-social">
-                                <a href="#/contacto" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                                <a href="#/contacto" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                                <a href="#/contacto" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-                                <a href="#/contacto" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                                <a href="https://wa.me/56221234567" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
                             </div>
                         </div>
                     </div>
