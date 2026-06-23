@@ -275,39 +275,54 @@ const Checkout = {
                 const cliente = ((App.user?.nombre || '') + ' ' + (App.user?.apellido || '')).trim();
                 win.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Recibo ${esc(numero)}</title>
                 <style>
-                  body{font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;max-width:700px;margin:24px auto;padding:0 16px}
-                  .head{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #F74F3C;padding-bottom:14px}
-                  .brand{font-size:24px;font-weight:800;color:#F74F3C;line-height:1}
-                  .brand small{display:block;font-size:10px;letter-spacing:2px;color:#666;font-weight:700}
-                  .badge{background:#e6f7ef;color:#00a06a;font-weight:700;font-size:13px;padding:5px 12px;border-radius:999px}
-                  .ordn{display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0}
-                  .ordn .n{font-size:26px;font-weight:800}
-                  .muted{color:#666;font-size:13px}
-                  table{width:100%;border-collapse:collapse;margin:8px 0}
-                  th,td{padding:8px;border-bottom:1px solid #e0e0e0;font-size:14px;text-align:left}
+                  *{box-sizing:border-box}
+                  body{font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;background:#ececec;margin:0;padding:28px 12px}
+                  .receipt{max-width:680px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.10)}
+                  .r-head{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;color:#fff;background:linear-gradient(135deg,#1c1413 0%,#C82F1D 130%);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+                  .r-brand{font-size:22px;font-weight:800;line-height:1}
+                  .r-brand small{display:block;font-size:10px;letter-spacing:2px;opacity:.8;font-weight:700}
+                  .r-meta{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+                  .badge{background:#e6f7ef;color:#00a06a;font-weight:700;font-size:12px;padding:5px 12px;border-radius:999px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+                  .r-meta .doc{font-size:11px;letter-spacing:1px;opacity:.85;text-transform:uppercase}
+                  .r-body{padding:24px 28px}
+                  .ordn{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px}
+                  .lbl{font-size:11px;letter-spacing:1px;color:#999;text-transform:uppercase}
+                  .ordn .n{font-size:24px;font-weight:800}
+                  .muted{color:#888;font-size:12px}
+                  table{width:100%;border-collapse:collapse;margin:6px 0}
+                  th{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#999;text-align:left;border-bottom:2px solid #eee;padding:8px}
+                  td{padding:10px 8px;border-bottom:1px solid #eee;font-size:14px}
                   .c{text-align:center}.r{text-align:right}
-                  .tot{display:flex;justify-content:space-between;font-size:14px;padding:3px 0}
-                  .tot.big{font-weight:800;font-size:18px;background:#1a1a1a;color:#fff;border-radius:8px;padding:12px 14px;margin-top:8px}
-                  .boxes{display:flex;gap:14px;margin-top:18px}
-                  .box{flex:1;background:#f5f5f5;border-radius:10px;padding:14px;font-size:13px}
-                  .box .t{font-size:11px;letter-spacing:1px;color:#666;font-weight:700;text-transform:uppercase;margin-bottom:6px}
-                  .foot{text-align:center;color:#666;font-size:12px;margin-top:24px;border-top:1px solid #e0e0e0;padding-top:14px}
+                  .tot{display:flex;justify-content:space-between;font-size:14px;padding:4px 0;color:#444}
+                  .tot.big{background:#1a1a1a;color:#fff;font-weight:800;font-size:18px;border-radius:10px;padding:14px 16px;margin-top:10px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+                  .boxes{display:flex;gap:14px;margin-top:20px}
+                  .box{flex:1;background:#f6f6f6;border-radius:10px;padding:14px;font-size:13px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+                  .box .t{font-size:10px;letter-spacing:1px;color:#999;font-weight:700;text-transform:uppercase;margin-bottom:8px}
+                  .foot{text-align:center;color:#999;font-size:12px;margin-top:22px;padding-top:16px;border-top:1px solid #eee}
+                  @media print{body{background:#fff;padding:0}.receipt{box-shadow:none;border-radius:0;max-width:none}}
                 </style></head><body>
-                  <div class="head"><div class="brand">QuadCore<small>ELECTRÓNICA</small></div><span class="badge">&#10003; Pagado</span></div>
-                  <div class="ordn">
-                    <div><div class="muted">N&deg; de orden</div><div class="n">${esc(numero)}</div></div>
-                    <div class="muted r">Fecha de emisi&oacute;n<br><b>${esc((p.created_at || '').slice(0, 10))}</b></div>
+                  <div class="receipt">
+                    <div class="r-head">
+                      <div class="r-brand">QuadCore<small>ELECTR&Oacute;NICA</small></div>
+                      <div class="r-meta"><span class="badge">&#10003; Pagado</span><span class="doc">Recibo de compra</span></div>
+                    </div>
+                    <div class="r-body">
+                      <div class="ordn">
+                        <div><div class="lbl">N&deg; de orden</div><div class="n">${esc(numero)}</div></div>
+                        <div class="muted r">Fecha de emisi&oacute;n<br><b>${esc((p.created_at || '').slice(0, 10))}</b></div>
+                      </div>
+                      <table><thead><tr><th>Producto</th><th class="c">Cant.</th><th class="r">Subtotal</th></tr></thead><tbody>${filas}</tbody></table>
+                      <div class="tot"><span>Subtotal</span><span>${esc(p.subtotal_formateado || '')}</span></div>
+                      ${p.iva_formateado ? `<div class="tot"><span>IVA (19%)</span><span>${esc(p.iva_formateado)}</span></div>` : ''}
+                      <div class="tot"><span>Despacho</span><span>Gratis</span></div>
+                      <div class="tot big"><span>TOTAL</span><span>${esc(p.total_formateado || o.total)}</span></div>
+                      <div class="boxes">
+                        <div class="box"><div class="t">Despacho a domicilio</div><b>${esc(cliente)}</b><br>${esc(o.direccion)}</div>
+                        <div class="box"><div class="t">M&eacute;todo de pago</div>Pago aprobado<br>v&iacute;a Mercado Pago<br><span class="muted">${esc(o.email)}</span></div>
+                      </div>
+                      <div class="foot">&iexcl;Gracias por tu compra en QuadCore!<br>&iquest;Dudas con tu pedido? Escribinos a soporte@quadcorestore.com</div>
+                    </div>
                   </div>
-                  <table><thead><tr><th>Producto</th><th class="c">Cant.</th><th class="r">Subtotal</th></tr></thead><tbody>${filas}</tbody></table>
-                  <div class="tot"><span>Subtotal</span><span>${esc(p.subtotal_formateado || '')}</span></div>
-                  ${p.iva_formateado ? `<div class="tot"><span>IVA (19%)</span><span>${esc(p.iva_formateado)}</span></div>` : ''}
-                  <div class="tot"><span>Despacho</span><span>Gratis</span></div>
-                  <div class="tot big"><span>TOTAL</span><span>${esc(p.total_formateado || o.total)}</span></div>
-                  <div class="boxes">
-                    <div class="box"><div class="t">Despacho a domicilio</div><b>${esc(cliente)}</b><br>${esc(o.direccion)}</div>
-                    <div class="box"><div class="t">M&eacute;todo de pago</div>Pago aprobado<br>v&iacute;a Mercado Pago<br><span class="muted">${esc(o.email)}</span></div>
-                  </div>
-                  <div class="foot">&iexcl;Gracias por tu compra en QuadCore!<br>&iquest;Dudas con tu pedido? Escribinos a soporte@quadcorestore.com</div>
                 </body></html>`);
                 win.document.close();
                 win.focus();
