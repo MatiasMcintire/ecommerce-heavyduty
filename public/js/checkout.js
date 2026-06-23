@@ -270,34 +270,34 @@ const Checkout = {
                 const filas = (p.detalle || []).map(d =>
                     `<tr><td>${esc(d.nombre_producto)}</td><td class="c">x${d.cantidad}</td><td class="r">${App.formatPrice(d.precio_unitario * d.cantidad)}</td></tr>`
                 ).join('');
-                const win = window.open('', '_blank', 'width=720,height=900');
+                const win = window.open('', '_blank', 'width=620,height=800');
                 if (!win) { App.showToast('Permití las ventanas emergentes para descargar el recibo.', 'info'); return; }
                 const cliente = ((App.user?.nombre || '') + ' ' + (App.user?.apellido || '')).trim();
                 win.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Recibo ${esc(numero)}</title>
                 <style>
                   *{box-sizing:border-box}
-                  body{font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;background:#ececec;margin:0;padding:28px 12px}
-                  .receipt{max-width:680px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.10)}
-                  .r-head{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;color:#fff;background:linear-gradient(135deg,#1c1413 0%,#C82F1D 130%);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+                  body{font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;background:#ececec;margin:0;padding:18px 10px}
+                  .receipt{max-width:520px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.10)}
+                  .r-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;color:#fff;background:linear-gradient(135deg,#1c1413 0%,#C82F1D 130%);-webkit-print-color-adjust:exact;print-color-adjust:exact}
                   .r-brand{display:flex;align-items:center;gap:10px}
-                  .r-mark{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:#F74F3C;border-radius:9px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-                  .r-mark svg{width:20px;height:20px}
-                  .r-name{font-size:22px;font-weight:800;line-height:1}
+                  .r-mark{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:#F74F3C;border-radius:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+                  .r-mark svg{width:17px;height:17px}
+                  .r-name{font-size:18px;font-weight:800;line-height:1}
                   .r-name small{display:block;font-size:10px;letter-spacing:2px;opacity:.8;font-weight:700}
                   .r-meta{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
                   .badge{background:#e6f7ef;color:#00a06a;font-weight:700;font-size:12px;padding:5px 12px;border-radius:999px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
                   .r-meta .doc{font-size:11px;letter-spacing:1px;opacity:.85;text-transform:uppercase}
-                  .r-body{padding:24px 28px}
-                  .ordn{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px}
-                  .lbl{font-size:11px;letter-spacing:1px;color:#999;text-transform:uppercase}
-                  .ordn .n{font-size:24px;font-weight:800}
+                  .r-body{padding:18px 20px}
+                  .ordn{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px}
+                  .lbl{font-size:10px;letter-spacing:1px;color:#999;text-transform:uppercase}
+                  .ordn .n{font-size:20px;font-weight:800}
                   .muted{color:#888;font-size:12px}
                   table{width:100%;border-collapse:collapse;margin:6px 0}
                   th{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#999;text-align:left;border-bottom:2px solid #eee;padding:8px}
                   td{padding:10px 8px;border-bottom:1px solid #eee;font-size:14px}
                   .c{text-align:center}.r{text-align:right}
                   .tot{display:flex;justify-content:space-between;font-size:14px;padding:4px 0;color:#444}
-                  .tot.big{background:#1a1a1a;color:#fff;font-weight:800;font-size:18px;border-radius:10px;padding:14px 16px;margin-top:10px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+                  .tot.big{background:#1a1a1a;color:#fff;font-weight:800;font-size:16px;border-radius:9px;padding:12px 14px;margin-top:9px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
                   .boxes{display:flex;gap:14px;margin-top:20px}
                   .box{flex:1;background:#f6f6f6;border-radius:10px;padding:14px;font-size:13px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
                   .box .t{font-size:10px;letter-spacing:1px;color:#999;font-weight:700;text-transform:uppercase;margin-bottom:8px}
