@@ -272,29 +272,42 @@ const Checkout = {
                 ).join('');
                 const win = window.open('', '_blank', 'width=720,height=900');
                 if (!win) { App.showToast('Permití las ventanas emergentes para descargar el recibo.', 'info'); return; }
+                const cliente = ((App.user?.nombre || '') + ' ' + (App.user?.apellido || '')).trim();
                 win.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Recibo ${esc(numero)}</title>
                 <style>
-                  body{font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;max-width:680px;margin:24px auto;padding:0 16px}
-                  .head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #F74F3C;padding-bottom:12px}
-                  .brand{font-size:24px;font-weight:800;color:#F74F3C}
-                  h2{font-size:16px;margin:18px 0 4px}.muted{color:#666;font-size:13px}
-                  table{width:100%;border-collapse:collapse;margin:14px 0}
+                  body{font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;max-width:700px;margin:24px auto;padding:0 16px}
+                  .head{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #F74F3C;padding-bottom:14px}
+                  .brand{font-size:24px;font-weight:800;color:#F74F3C;line-height:1}
+                  .brand small{display:block;font-size:10px;letter-spacing:2px;color:#666;font-weight:700}
+                  .badge{background:#e6f7ef;color:#00a06a;font-weight:700;font-size:13px;padding:5px 12px;border-radius:999px}
+                  .ordn{display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0}
+                  .ordn .n{font-size:26px;font-weight:800}
+                  .muted{color:#666;font-size:13px}
+                  table{width:100%;border-collapse:collapse;margin:8px 0}
                   th,td{padding:8px;border-bottom:1px solid #e0e0e0;font-size:14px;text-align:left}
                   .c{text-align:center}.r{text-align:right}
                   .tot{display:flex;justify-content:space-between;font-size:14px;padding:3px 0}
-                  .tot.big{font-weight:800;font-size:16px;border-top:2px solid #1a1a1a;margin-top:6px;padding-top:8px}
-                  .box{background:#f5f5f5;border-radius:8px;padding:12px;margin-top:16px;font-size:13px}
-                  .foot{text-align:center;color:#666;font-size:12px;margin-top:24px}
+                  .tot.big{font-weight:800;font-size:18px;background:#1a1a1a;color:#fff;border-radius:8px;padding:12px 14px;margin-top:8px}
+                  .boxes{display:flex;gap:14px;margin-top:18px}
+                  .box{flex:1;background:#f5f5f5;border-radius:10px;padding:14px;font-size:13px}
+                  .box .t{font-size:11px;letter-spacing:1px;color:#666;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+                  .foot{text-align:center;color:#666;font-size:12px;margin-top:24px;border-top:1px solid #e0e0e0;padding-top:14px}
                 </style></head><body>
-                  <div class="head"><div class="brand">QuadCore</div>
-                    <div class="muted r">Recibo de compra<br><b>${esc(numero)}</b><br>${esc((p.created_at || '').slice(0, 10))}</div></div>
-                  <h2>Detalle del pedido</h2>
+                  <div class="head"><div class="brand">QuadCore<small>ELECTRÓNICA</small></div><span class="badge">&#10003; Pagado</span></div>
+                  <div class="ordn">
+                    <div><div class="muted">N&deg; de orden</div><div class="n">${esc(numero)}</div></div>
+                    <div class="muted r">Fecha de emisi&oacute;n<br><b>${esc((p.created_at || '').slice(0, 10))}</b></div>
+                  </div>
                   <table><thead><tr><th>Producto</th><th class="c">Cant.</th><th class="r">Subtotal</th></tr></thead><tbody>${filas}</tbody></table>
                   <div class="tot"><span>Subtotal</span><span>${esc(p.subtotal_formateado || '')}</span></div>
                   ${p.iva_formateado ? `<div class="tot"><span>IVA (19%)</span><span>${esc(p.iva_formateado)}</span></div>` : ''}
-                  <div class="tot big"><span>Total</span><span>${esc(p.total_formateado || o.total)}</span></div>
-                  <div class="box"><b>Envío a:</b> ${esc(o.direccion)}<br><b>Email:</b> ${esc(o.email)}</div>
-                  <div class="foot">Gracias por tu compra en QuadCore · quadcorestore.com</div>
+                  <div class="tot"><span>Despacho</span><span>Gratis</span></div>
+                  <div class="tot big"><span>TOTAL</span><span>${esc(p.total_formateado || o.total)}</span></div>
+                  <div class="boxes">
+                    <div class="box"><div class="t">Despacho a domicilio</div><b>${esc(cliente)}</b><br>${esc(o.direccion)}</div>
+                    <div class="box"><div class="t">M&eacute;todo de pago</div>Pago aprobado<br>v&iacute;a Mercado Pago<br><span class="muted">${esc(o.email)}</span></div>
+                  </div>
+                  <div class="foot">&iexcl;Gracias por tu compra en QuadCore!<br>&iquest;Dudas con tu pedido? Escribinos a soporte@quadcorestore.com</div>
                 </body></html>`);
                 win.document.close();
                 win.focus();

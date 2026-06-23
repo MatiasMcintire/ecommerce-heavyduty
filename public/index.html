@@ -249,20 +249,46 @@
 
 <!-- Modal Login -->
 <div class="modal fade" id="loginModal" tabindex="-1">
-<div class="modal-dialog"><div class="modal-content">
-<div class="modal-header"><h5 class="modal-title">Iniciar Sesión</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-<div class="modal-body">
-<form id="login-form" novalidate>
-<div class="mb-3"><label class="form-label">Email</label>
-<input type="email" class="form-control" id="login-email" required placeholder="tu@email.com"></div>
-<div class="mb-3"><label class="form-label">Contraseña</label>
-<input type="password" class="form-control" id="login-password" required></div>
-<div id="login-error" class="alert alert-danger d-none"></div>
-<button type="submit" class="btn btn-primary w-100" id="login-submit">Iniciar Sesión</button>
-</form>
-<p class="mt-3 text-center">¿No tienes cuenta? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Regístrate</a></p>
-</div></div></div></div>
+<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-content qc-login">
+  <div class="qc-login-brand">
+    <div class="qc-login-logo"><img src="favicon.svg" alt="QuadCore" width="34" height="34"><span>Quad<b>Core</b><small>ELECTRÓNICA</small></span></div>
+    <h3 class="qc-login-welcome">Bienvenido<br>de vuelta</h3>
+    <p class="qc-login-lead">Ingresa para ver tus pedidos, precios y stock real en tiempo real.</p>
+    <ul class="qc-login-benefits">
+      <li><i class="bi bi-check-circle-fill"></i> Stock real verificado</li>
+      <li><i class="bi bi-check-circle-fill"></i> Garantía oficial</li>
+      <li><i class="bi bi-check-circle-fill"></i> Despacho a todo Chile</li>
+    </ul>
+    <div class="qc-login-trust"><i class="bi bi-shield-lock-fill"></i><div><strong>Compra 100% segura</strong><small>Datos cifrados · Pago protegido</small></div></div>
+  </div>
+  <div class="qc-login-form">
+    <button type="button" class="btn-close qc-login-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    <h5 class="modal-title">Iniciar Sesión</h5>
+    <p class="qc-login-sub">¿Aún no tienes cuenta? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Regístrate gratis</a></p>
+    <form id="login-form" novalidate>
+      <label class="form-label" for="login-email">Correo electrónico</label>
+      <div class="qc-input-icon">
+        <i class="bi bi-envelope"></i>
+        <input type="email" class="form-control" id="login-email" required placeholder="tu@email.com">
+      </div>
+      <label class="form-label mt-3" for="login-password">Contraseña</label>
+      <div class="qc-input-icon">
+        <i class="bi bi-lock"></i>
+        <input type="password" class="form-control" id="login-password" required placeholder="••••••••">
+        <button type="button" class="qc-pass-toggle" id="login-pass-toggle" aria-label="Mostrar u ocultar contraseña"><i class="bi bi-eye"></i></button>
+      </div>
+      <div class="qc-login-row">
+        <label class="qc-check"><input type="checkbox" id="login-remember"> Recordarme</label>
+        <a href="#" id="login-forgot">¿Olvidaste tu contraseña?</a>
+      </div>
+      <div id="login-error" class="alert alert-danger d-none py-2"></div>
+      <button type="submit" class="btn btn-primary w-100" id="login-submit">Iniciar Sesión <i class="bi bi-arrow-right"></i></button>
+    </form>
+  </div>
+</div>
+</div>
+</div>
 
 <!-- Modal Registro -->
 <div class="modal fade" id="registerModal" tabindex="-1">
