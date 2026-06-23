@@ -259,7 +259,49 @@ const Checkout = {
             </div>
             <p class="text-muted small mt-3"><i class="bi bi-shield-lock"></i> Transacción 100% segura y encriptada</p>
         </div>`;
-        // ponytail: "Descargar recibo" es stub; hay endpoint /api/exportar/pedidos para PDF/CSV real si se pide.
-        document.getElementById('confirm-receipt')?.addEventListener('click', () => App.showToast('Descarga de recibo: próximamente', 'info'));
+        // "Descargar recibo": arma un comprobante imprimible (Guardar como PDF del navegador).
+        // Sin librerías; los datos salen de /api/pedidos/{id}.
+        document.getElementById('confirm-receipt')?.addEventListener('click', async () => {
+            try {
+                const data = await (await App.fetchAuth(`${App.apiBase}/pedidos/${o.id}`)).json();
+                if (!data.success) throw new Error('fetch');
+                const p = data.data;
+                const esc = (s) => Catalogo.escapeHtml(String(s ?? ''));
+                const filas = (p.detalle || []).map(d =>
+                    `<tr><td>${esc(d.nombre_producto)}</td><td class="c">x${d.cantidad}</td><td class="r">${App.formatPrice(d.precio_unitario * d.cantidad)}</td></tr>`
+                ).join('');
+                const win = window.open('', '_blank', 'width=720,height=900');
+                if (!win) { App.showToast('Permití las ventanas emergentes para descargar el recibo.', 'info'); return; }
+                win.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Recibo ${esc(numero)}</title>
+                <style>
+                  body{font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;max-width:680px;margin:24px auto;padding:0 16px}
+                  .head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #F74F3C;padding-bottom:12px}
+                  .brand{font-size:24px;font-weight:800;color:#F74F3C}
+                  h2{font-size:16px;margin:18px 0 4px}.muted{color:#666;font-size:13px}
+                  table{width:100%;border-collapse:collapse;margin:14px 0}
+                  th,td{padding:8px;border-bottom:1px solid #e0e0e0;font-size:14px;text-align:left}
+                  .c{text-align:center}.r{text-align:right}
+                  .tot{display:flex;justify-content:space-between;font-size:14px;padding:3px 0}
+                  .tot.big{font-weight:800;font-size:16px;border-top:2px solid #1a1a1a;margin-top:6px;padding-top:8px}
+                  .box{background:#f5f5f5;border-radius:8px;padding:12px;margin-top:16px;font-size:13px}
+                  .foot{text-align:center;color:#666;font-size:12px;margin-top:24px}
+                </style></head><body>
+                  <div class="head"><div class="brand">QuadCore</div>
+                    <div class="muted r">Recibo de compra<br><b>${esc(numero)}</b><br>${esc((p.created_at || '').slice(0, 10))}</div></div>
+                  <h2>Detalle del pedido</h2>
+                  <table><thead><tr><th>Producto</th><th class="c">Cant.</th><th class="r">Subtotal</th></tr></thead><tbody>${filas}</tbody></table>
+                  <div class="tot"><span>Subtotal</span><span>${esc(p.subtotal_formateado || '')}</span></div>
+                  ${p.iva_formateado ? `<div class="tot"><span>IVA (19%)</span><span>${esc(p.iva_formateado)}</span></div>` : ''}
+                  <div class="tot big"><span>Total</span><span>${esc(p.total_formateado || o.total)}</span></div>
+                  <div class="box"><b>Envío a:</b> ${esc(o.direccion)}<br><b>Email:</b> ${esc(o.email)}</div>
+                  <div class="foot">Gracias por tu compra en QuadCore · quadcorestore.com</div>
+                </body></html>`);
+                win.document.close();
+                win.focus();
+                win.print();
+            } catch (e) {
+                App.showToast('No se pudo generar el recibo. Intentá de nuevo.', 'error');
+            }
+        });
     }
 };
