@@ -275,14 +275,7 @@ const Admin = {
                                     <td>${badgeEstado(p.estado)}</td>
                                     <td class="text-muted">${(p.created_at || '').slice(0, 10)}</td>
                                     <td class="text-end">
-                                        <select class="form-select form-select-sm admin-status-select" onchange="Admin.changeOrderStatus(${p.id}, this.value)">
-                                            <option value="">—</option>
-                                            <option value="pagado">Pagado</option>
-                                            <option value="en_preparacion">En preparación</option>
-                                            <option value="enviado">Enviado</option>
-                                            <option value="entregado">Entregado</option>
-                                            <option value="cancelado">Cancelado</option>
-                                        </select>
+                                        ${this.estadoSelect(p.id, p.estado)}
                                     </td>
                                 </tr>
                             `).join('')}
@@ -644,13 +637,42 @@ const Admin = {
         }
     },
 
+    /** Etiquetas legibles de estado */
+    estadoLabel(s) {
+        return ({ pendiente: 'Pendiente', pagado: 'Pagado', en_preparacion: 'En preparación', enviado: 'Enviado', entregado: 'Entregado', cancelado: 'Cancelado' })[s] || s;
+    },
+
+    /**
+     * Select con solo las transiciones VÁLIDAS desde el estado actual
+     * (mismo flujo que valida el backend). Estados finales: sin cambios.
+     */
+    estadoSelect(id, estadoActual) {
+        const trans = {
+            pendiente:      ['pagado', 'cancelado'],
+            pagado:         ['en_preparacion', 'cancelado'],
+            en_preparacion: ['enviado', 'cancelado'],
+            enviado:        ['entregado'],
+            entregado:      [],
+            cancelado:      [],
+        };
+        const next = trans[estadoActual] || [];
+        if (next.length === 0) {
+            return '<span class="text-muted small">Sin acciones</span>';
+        }
+        const opts = next.map(s => `<option value="${s}">${this.estadoLabel(s)}</option>`).join('');
+        return `<select class="form-select form-select-sm admin-status-select" onchange="Admin.changeOrderStatus(${id}, this.value)">
+            <option value="" selected disabled>Cambiar a…</option>
+            ${opts}
+        </select>`;
+    },
+
     /**
      * Cambia estado de un pedido
      */
     async changeOrderStatus(orderId, newStatus) {
         if (!newStatus) return;
 
-        if (!confirm(`¿Cambiar pedido #${orderId} a estado "${newStatus}"?`)) {
+        if (!confirm(`¿Cambiar el pedido a "${this.estadoLabel(newStatus)}"?`)) {
             // Resetear select
             this.loadPedidos();
             return;
