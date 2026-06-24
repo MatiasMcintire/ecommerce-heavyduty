@@ -656,12 +656,15 @@ const Admin = {
             cancelado:      [],
         };
         const next = trans[estadoActual] || [];
+        // Estado actual como opción seleccionada (deshabilitada): el select siempre
+        // refleja dónde está el pedido, no queda "vacío" al volver a la sección.
+        const actual = `<option value="" selected disabled>${this.estadoLabel(estadoActual)}</option>`;
         if (next.length === 0) {
-            return '<span class="text-muted small">Sin acciones</span>';
+            return `<select class="form-select form-select-sm admin-status-select" disabled>${actual}</select>`;
         }
-        const opts = next.map(s => `<option value="${s}">${this.estadoLabel(s)}</option>`).join('');
+        const opts = next.map(s => `<option value="${s}">→ ${this.estadoLabel(s)}</option>`).join('');
         return `<select class="form-select form-select-sm admin-status-select" onchange="Admin.changeOrderStatus(${id}, this.value)">
-            <option value="" selected disabled>Cambiar a…</option>
+            ${actual}
             ${opts}
         </select>`;
     },
