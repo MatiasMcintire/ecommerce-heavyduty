@@ -423,11 +423,11 @@ async loadCategorySections() {
         return `
             <div class="col-6 col-lg-4 col-xl-3 mb-4">
                 <div class="product-card position-relative">
-                    <div class="qc-card-media">
+                    <a href="#/producto/${p.id}" class="qc-card-media" aria-label="Ver ${this.escapeHtml(p.nombre)}">
                         ${media}
                         ${ofertaBadge}
                         ${stockBadge}
-                    </div>
+                    </a>
                     <div class="card-body">
                         <span class="card-category">${this.escapeHtml(p.marca || p.categoria_nombre || '')}</span>
                         <h5 class="card-title">${this.escapeHtml(p.nombre)}</h5>

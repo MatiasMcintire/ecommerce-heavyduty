@@ -163,7 +163,7 @@ const Router = {
         // Páginas informativas (despacho, garantia, medios-pago, nosotros)
         if (this.paginas.includes(path)) {
             this.show('view-generic');
-            this.crumbs([['Inicio', '#/'], [path]]);
+            this.crumbs([['Inicio', '#/'], [Paginas.contenido[path]?.titulo || path]]);
             Paginas.render(path);
             this.setTitle(path);
             return;
