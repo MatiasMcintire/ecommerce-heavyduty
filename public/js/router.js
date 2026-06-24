@@ -78,6 +78,7 @@ const Router = {
             garantia: 'Garantía y devoluciones',
             'medios-pago': 'Medios de pago',
             nosotros: 'Quiénes somos',
+            comparar: 'Comparar productos',
         };
         let title = titles[page] || page;
         if (extra) title = `${extra} · ${title}`;
@@ -157,6 +158,15 @@ const Router = {
             this.crumbs([['Inicio', '#/'], ['Contacto']]);
             Contacto.render();
             this.setTitle('contacto');
+            return;
+        }
+
+        // Comparar productos
+        if (path === 'comparar') {
+            this.show('view-generic');
+            this.crumbs([['Inicio', '#/'], ['Comparar']]);
+            Compare.openPage();
+            this.setTitle('comparar');
             return;
         }
 

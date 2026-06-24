@@ -156,6 +156,7 @@ const Carrito = {
     },
 
     openDrawer() {
+        this.loadCart();   // datos frescos en cada apertura
         document.getElementById('cartOverlay')?.classList.add('open');
         const d = document.getElementById('cartDrawer');
         if (d) { d.classList.add('open'); d.setAttribute('aria-hidden', 'false'); }

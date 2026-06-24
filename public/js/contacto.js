@@ -17,16 +17,17 @@ const Contacto = {
         if (!view) return;
         view.innerHTML = `
             <div class="leo-contacto">
-                <header class="leo-contacto-hero">
-                    <span class="leo-badge"><i class="bi bi-headset"></i> Atención al cliente</span>
-                    <h2 class="qc-similares-title">Contáctanos</h2>
-                    <p class="leo-contacto-sub">¿Tienes dudas sobre un producto o necesitas servicio técnico?
-                        Escríbenos y te respondemos dentro de 24 horas hábiles.</p>
-                </header>
+                <div class="gw-page">
+                    <header class="gw-head">
+                        <p class="gw-kicker"><i class="bi bi-headset"></i> Atención al cliente</p>
+                        <h1>Contáctanos</h1>
+                        <p class="lead">¿Tienes dudas sobre un producto o necesitas servicio técnico? Escríbenos y te respondemos dentro de 24 horas hábiles.</p>
+                    </header>
+                </div>
 
                 <div class="row g-4 align-items-stretch">
-                    <div class="col-lg-7">
-                        <div class="leo-card">
+                    <div class="col-lg-6">
+                        <div class="leo-card h-100">
                             <h3 class="leo-card-title"><i class="bi bi-chat-dots"></i> Envíanos un mensaje</h3>
                             <form id="contacto-form" class="leo-contacto-form" novalidate>
                                 <div class="leo-field">
@@ -70,7 +71,7 @@ const Contacto = {
                         </div>
                     </div>
 
-                    <div class="col-lg-5">
+                    <div class="col-lg-6">
                         <div class="leo-card leo-contacto-info h-100">
                             <h3 class="leo-card-title"><i class="bi bi-geo-alt"></i> Visítanos</h3>
                             <iframe class="qc-mapframe" title="Mapa de QuadCore en Providencia, Santiago" loading="lazy"

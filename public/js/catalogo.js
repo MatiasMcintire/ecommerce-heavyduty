@@ -434,7 +434,10 @@ async loadCategorySections() {
                         <span class="card-price">${p.precio_formateado || App.formatPrice(p.precio)}</span>${precioAnterior}
                         <div class="card-actions">
                             ${addButton}
-                            <a href="#/producto/${p.id}" class="btn btn-outline-uct btn-sm w-100 mt-1">Ver detalle</a>
+                            <div class="d-flex gap-2 mt-1">
+                                <a href="#/producto/${p.id}" class="btn btn-outline-uct btn-sm flex-grow-1">Ver detalle</a>
+                                <button type="button" class="btn btn-outline-uct btn-sm qc-compare-toggle${window.Compare?.isSelected(p.id) ? ' active' : ''}" data-id="${p.id}" data-name="${this.escapeHtml(p.nombre)}" title="Comparar" aria-label="Comparar"><i class="bi bi-arrow-left-right"></i></button>
+                            </div>
                             ${extra}
                         </div>
                     </div>
@@ -691,7 +694,7 @@ async loadCategorySections() {
                         ${addButton}
                         <div class="d-flex gap-2">
                             <button class="btn btn-outline-uct w-100" id="btn-fav"><i class="bi bi-heart"></i> Agregar a favoritos</button>
-                            <button class="btn btn-outline-uct w-100" id="btn-compare"><i class="bi bi-arrow-left-right"></i> Comparar</button>
+                            <button type="button" class="btn btn-outline-uct w-100 qc-compare-toggle${window.Compare?.isSelected(product.id) ? ' active' : ''}" data-id="${product.id}" data-name="${this.escapeHtml(product.nombre)}"><i class="bi bi-arrow-left-right"></i> Comparar</button>
                         </div>
                     </div>
                 </div>
@@ -909,8 +912,7 @@ async loadCategorySections() {
             btnDetail.innerHTML = original;
         });
 
-        // favoritos lo maneja initFavButton(); comparar sigue siendo stub fuera de alcance.
-        document.getElementById('btn-compare')?.addEventListener('click', () => App.showToast('Comparar: próximamente', 'info'));
+        // favoritos lo maneja initFavButton(); comparar lo maneja Compare (handler global por .qc-compare-toggle).
     },
 
     /** Carga 4 productos de la misma categoría (excluye el actual) */

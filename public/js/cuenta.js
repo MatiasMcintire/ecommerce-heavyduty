@@ -77,8 +77,14 @@ const Pedidos = {
 
         view.innerHTML = `
             <div class="cuenta-page">
-                <h1 class="cart-page-title">Mis pedidos <span class="text-muted fs-6">${this.pedidos.length} pedido${this.pedidos.length === 1 ? '' : 's'}</span></h1>
-                <div class="pedido-pills mb-3">${pills}</div>
+                <div class="gw-page">
+                    <header class="gw-head">
+                        <p class="gw-kicker"><i class="bi bi-bag-check"></i> Mi cuenta</p>
+                        <h1>Mis pedidos</h1>
+                        <p class="lead">${this.pedidos.length} pedido${this.pedidos.length === 1 ? '' : 's'} en tu historial.</p>
+                    </header>
+                </div>
+                <div class="pedido-pills mb-3 mt-4">${pills}</div>
                 <div class="cart-table-card">
                     <table class="cart-table pedidos-table">
                         <thead><tr><th>Orden</th><th>Fecha</th><th>Total</th><th>Estado</th><th class="text-end">Acción</th></tr></thead>

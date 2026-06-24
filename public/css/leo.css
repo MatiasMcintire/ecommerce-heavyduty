@@ -7,16 +7,6 @@
 /* ---------- Contenedores ---------- */
 .leo-contacto { max-width: 1080px; margin: 0 auto; }
 
-/* ---------- Encabezado de Contacto ---------- */
-.leo-contacto-hero { text-align: center; margin-bottom: 28px; }
-.leo-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(247, 79, 60, 0.10); color: var(--qc-red);
-    font-weight: 600; font-size: .85rem;
-    padding: 6px 14px; border-radius: 999px; margin-bottom: 12px;
-}
-.leo-contacto-sub { color: var(--qc-gray); max-width: 620px; margin: 8px auto 0; line-height: 1.6; }
-
 /* ---------- Tarjetas ---------- */
 .leo-card {
     background: var(--qc-white);
