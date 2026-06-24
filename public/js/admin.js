@@ -31,7 +31,39 @@ const Admin = {
             </div>`;
         this.currentSection = 'dashboard';
         this.initNavigation();
+        this.initDelegation();
         this.loadDashboard();
+    },
+
+    /**
+     * Listeners delegados para las acciones del admin (CSP: nada de onclick/onchange
+     * inline, que la política de seguridad bloquea). Se engancha una sola vez a nivel
+     * document y cubre también el modal de producto (que vive fuera de #admin-content).
+     */
+    initDelegation() {
+        if (this._delegated) return;
+        this._delegated = true;
+
+        document.addEventListener('click', (e) => {
+            const el = e.target.closest('[data-admin-action]');
+            if (!el) return;
+            e.preventDefault();
+            const a = el.dataset.adminAction;
+            if (a === 'new-product')        this.showProductForm();
+            else if (a === 'edit-product')  this.showProductForm(parseInt(el.dataset.id));
+            else if (a === 'delete-product') this.deleteProduct(parseInt(el.dataset.id));
+            else if (a === 'save-product')  this.saveProduct();
+            else if (a === 'page-productos') this.loadProductos(parseInt(el.dataset.page));
+            else if (a === 'toggle-user')   this.toggleUser(parseInt(el.dataset.id), parseInt(el.dataset.activo));
+            else if (a === 'goto-pedidos')  document.querySelector('.admin-nav-link[data-section="pedidos"]')?.click();
+        });
+
+        document.addEventListener('change', (e) => {
+            const el = e.target.closest('[data-admin-change]');
+            if (!el) return;
+            if (el.dataset.adminChange === 'order-status') this.changeOrderStatus(parseInt(el.dataset.id), el.value);
+            else if (el.dataset.adminChange === 'ventas-periodo') this.refreshVentas(el.value);
+        });
     },
 
     /**
@@ -176,7 +208,7 @@ const Admin = {
             let html = `
                 <div class="admin-page-head">
                     <h1 class="admin-page-title mb-0">Gestión de productos</h1>
-                    <button class="btn-grafito" id="btn-new-product" onclick="Admin.showProductForm()">
+                    <button class="btn-grafito" id="btn-new-product" data-admin-action="new-product">
                         <i class="bi bi-plus-lg"></i> Nuevo producto
                     </button>
                 </div>`;
@@ -201,8 +233,8 @@ const Admin = {
                                     <td>${this.stockBadge(p.stock, p.stock_minimo)}</td>
                                     <td>${this.activoBadge(p.activo)}</td>
                                     <td class="text-end">
-                                        <button class="admin-action" onclick="Admin.showProductForm(${p.id})" title="Editar"><i class="bi bi-pencil"></i></button>
-                                        <button class="admin-action danger" onclick="Admin.deleteProduct(${p.id})" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                        <button class="admin-action" data-admin-action="edit-product" data-id="${p.id}" title="Editar"><i class="bi bi-pencil"></i></button>
+                                        <button class="admin-action danger" data-admin-action="delete-product" data-id="${p.id}" title="Eliminar"><i class="bi bi-trash"></i></button>
                                     </td>
                                 </tr>
                             `).join('')}
@@ -214,13 +246,13 @@ const Admin = {
                 if (pag && pag.total_pages > 1) {
                     html += `<nav class="qc-pagination"><ul class="pagination justify-content-center">`;
                     html += `<li class="page-item ${page <= 1 ? 'disabled' : ''}">
-                        <a class="page-link" href="#" onclick="${page <= 1 ? 'return false' : `Admin.loadProductos(${page - 1});return false`}">Anterior</a></li>`;
+                        <a class="page-link" href="#" ${page <= 1 ? '' : `data-admin-action="page-productos" data-page="${page - 1}"`}>Anterior</a></li>`;
                     for (let i = 1; i <= pag.total_pages; i++) {
                         html += `<li class="page-item ${i === page ? 'active' : ''}">
-                            <a class="page-link" href="#" onclick="Admin.loadProductos(${i});return false">${i}</a></li>`;
+                            <a class="page-link" href="#" data-admin-action="page-productos" data-page="${i}">${i}</a></li>`;
                     }
                     html += `<li class="page-item ${page >= pag.total_pages ? 'disabled' : ''}">
-                        <a class="page-link" href="#" onclick="${page >= pag.total_pages ? 'return false' : `Admin.loadProductos(${page + 1});return false`}">Siguiente</a></li>`;
+                        <a class="page-link" href="#" ${page >= pag.total_pages ? '' : `data-admin-action="page-productos" data-page="${page + 1}"`}>Siguiente</a></li>`;
                     html += `</ul></nav>`;
                     html += `<div class="qc-pagination-info">Mostrando página ${page} de ${pag.total_pages} · ${pag.total} productos</div>`;
                 }
@@ -328,7 +360,7 @@ const Admin = {
                                     <td class="text-muted">${u.ultimo_login ? (u.ultimo_login || '').slice(0, 10) : 'Nunca'}</td>
                                     <td class="text-end">
                                         <button class="admin-action ${u.activo == 1 ? 'danger' : ''}"
-                                                onclick="Admin.toggleUser(${u.id}, ${u.activo == 1 ? 0 : 1})"
+                                                data-admin-action="toggle-user" data-id="${u.id}" data-activo="${u.activo == 1 ? 0 : 1}"
                                                 title="${u.activo == 1 ? 'Deshabilitar' : 'Activar'}">
                                             <i class="bi ${u.activo == 1 ? 'bi-person-slash' : 'bi-person-check'}"></i>
                                         </button>
@@ -392,7 +424,7 @@ const Admin = {
                     <h6>Ventas por día</h6>
                     <div class="d-flex align-items-center gap-3">
                         <span class="qc-chart-legend"><span class="sw"></span>Ingresos diarios</span>
-                        <select id="ventas-periodo" class="form-select form-select-sm admin-status-select" onchange="Admin.refreshVentas(this.value)">
+                        <select id="ventas-periodo" class="form-select form-select-sm admin-status-select" data-admin-change="ventas-periodo">
                             <option value="semana">Última semana</option>
                             <option value="mes" selected>Últimos 30 días</option>
                             <option value="trimestre">Últimos 3 meses</option>
@@ -563,7 +595,7 @@ const Admin = {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-accent" id="btn-save-product" onclick="Admin.saveProduct()">
+                        <button type="button" class="btn btn-accent" id="btn-save-product" data-admin-action="save-product">
                             ${product ? 'Guardar Cambios' : 'Crear Producto'}
                         </button>
                     </div>
@@ -663,7 +695,7 @@ const Admin = {
             return `<select class="form-select form-select-sm admin-status-select" disabled>${actual}</select>`;
         }
         const opts = next.map(s => `<option value="${s}">→ ${this.estadoLabel(s)}</option>`).join('');
-        return `<select class="form-select form-select-sm admin-status-select" onchange="Admin.changeOrderStatus(${id}, this.value)">
+        return `<select class="form-select form-select-sm admin-status-select" data-admin-change="order-status" data-id="${id}">
             ${actual}
             ${opts}
         </select>`;
