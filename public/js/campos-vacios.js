@@ -41,7 +41,7 @@ const UI = {
             descripcion = '',
             textoBoton = null,
             enlaceBoton = '#',
-            claseBoton = 'btn-accent',
+            claseBoton = 'btn-grafito',
             variante = '' // 'inline' para estados dentro de secciones
         } = opciones;
 
