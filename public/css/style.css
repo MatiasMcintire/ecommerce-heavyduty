@@ -62,6 +62,7 @@ body {
     flex-direction: column;
     font-size: 14px;
     line-height: 1.6;
+    overflow-x: hidden; /* el drawer del carrito vive off-canvas a la derecha; evita scroll horizontal en móvil */
 }
 
 a { color: var(--qc-red); text-decoration: none; }
@@ -841,7 +842,7 @@ main.container { flex: 1; display: flex; flex-direction: column; }
 #pagination-container { margin-top: auto; margin-bottom: 0; padding-top: 24px; }
 /* En el admin la paginación va después de la tabla: le damos aire para no romper la jerarquía */
 .admin-main .qc-pagination { margin-top: 24px; }
-.qc-pagination .pagination { gap: 4px; margin-bottom: 0; }
+.qc-pagination .pagination { gap: 4px; margin-bottom: 0; flex-wrap: wrap; justify-content: center; }
 .qc-pagination .page-item .page-link {
     min-width: 36px;
     height: 36px;
@@ -909,6 +910,18 @@ main.container { flex: 1; display: flex; flex-direction: column; }
 
 .footer-contact p { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 12px; display: flex; gap: 10px; align-items: start; }
 .footer-contact .bi { color: var(--qc-red); margin-top: 2px; }
+
+.footer-legal {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 18px 32px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+}
+.footer-legal a { margin: 0; font-size: 13px; color: rgba(255,255,255,0.6); }
+.footer-legal a:hover { color: var(--qc-red); }
 
 .footer-bottom {
     border-top: 1px solid rgba(255,255,255,0.1);
