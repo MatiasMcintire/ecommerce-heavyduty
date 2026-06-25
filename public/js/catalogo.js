@@ -640,9 +640,12 @@ async loadCategorySections() {
             : `<div class="qc-img-ph qc-img-ph-lg"><i class="bi bi-cpu"></i></div>`;
 
         // ponytail: specs reales de las columnas que tenemos. La tabla rica del
-        // mockup (núcleos, frecuencia, socket…) necesita un modelo de specs que
-        // aún no existe; se agrega cuando haya datos por producto.
+        // specs curadas por producto (JSON en BD, set demo) primero; luego las genéricas.
+        const especificaciones = product.especificaciones && typeof product.especificaciones === 'object'
+            ? Object.entries(product.especificaciones)
+            : [];
         const specs = [
+            ...especificaciones,
             ['Marca', product.marca],
             ['Categoría', product.categoria_nombre],
             ['SKU', 'PROD-' + product.id],

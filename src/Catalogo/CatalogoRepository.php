@@ -144,6 +144,10 @@ class CatalogoRepository
             $producto['precio'] = (int)$producto['precio'];
             $producto['stock'] = (int)$producto['stock'];
             $producto['sin_stock'] = (int)$producto['stock'] <= 0;
+            // especificaciones: JSON en BD → objeto para el front (null si no tiene)
+            $producto['especificaciones'] = !empty($producto['especificaciones'])
+                ? json_decode($producto['especificaciones'], true)
+                : null;
             $this->aplicarOferta($producto);
         }
 

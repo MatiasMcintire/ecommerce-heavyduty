@@ -35,5 +35,9 @@ SOURCE database/seed.sql;
 SOURCE database/seed_quadcore.sql;
 -- imágenes de productos (trabajo de Leonardo)
 SOURCE database/seed_imagenes.sql;
+-- especificaciones (set demo curado)
+SOURCE database/seed_especificaciones.sql;
+-- producto demo de pago real (aparte para que no lo pise el re-seed)
+SOURCE database/seed_producto_demo.sql;
 
 SELECT '✅ Base de datos configurada correctamente' AS mensaje;

@@ -75,6 +75,7 @@ CREATE TABLE productos (
     stock       INT UNSIGNED    NOT NULL DEFAULT 0,
     stock_minimo INT UNSIGNED   NOT NULL DEFAULT 5,
     marca       VARCHAR(80)     NULL,
+    especificaciones JSON       NULL COMMENT 'Specs por producto (clave→valor); set demo curado',
     imagen_url  VARCHAR(500)    NULL,
     activo      TINYINT(1)      NOT NULL DEFAULT 1,
     meta_descripcion VARCHAR(300) NULL,

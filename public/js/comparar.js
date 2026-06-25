@@ -131,6 +131,11 @@ const Compare = {
             ? '<button class="btn btn-secondary btn-sm w-100" disabled>Sin stock</button>'
             : `<button class="btn btn-accent btn-sm w-100 add-to-cart-btn" data-id="${p.id}" data-name="${esc(p.nombre)}"><i class="bi bi-cart-plus"></i> Agregar</button>`;
 
+        // specs técnicas: unión de claves de todos los productos comparados (— si falta)
+        const specs = (p) => (p.especificaciones && typeof p.especificaciones === 'object') ? p.especificaciones : {};
+        const specKeys = [...new Set(products.flatMap(p => Object.keys(specs(p))))];
+        const specRows = specKeys.map(k => r(esc(k), p => esc(specs(p)[k] || '—'))).join('');
+
         view.innerHTML = `
             <div class="gw-page"><header class="gw-head">
                 <p class="gw-kicker"><i class="bi bi-arrow-left-right"></i> Comparar</p>
@@ -144,6 +149,7 @@ const Compare = {
                         ${r('Precio', precio)}
                         ${r('Marca', p => esc(p.marca || '—'))}
                         ${r('Categoría', p => esc(p.categoria_nombre || '—'))}
+                        ${specRows}
                         ${r('Disponibilidad', disp)}
                         ${r('Garantía', () => '12 meses oficial')}
                         ${r('', add)}
