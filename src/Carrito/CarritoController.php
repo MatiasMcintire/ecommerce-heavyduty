@@ -198,7 +198,7 @@ class CarritoController
                 $this->service->sincronizarCarrito((int)$user['id'], $sessionId);
             }
 
-            $carrito = $this->service->obtenerCarrito(userId: (int)$user['id']);
+            $carrito = $this->service->obtenerCarrito(userId: (int)$user['id'], sessionId: null);
             $response->json($carrito);
 
         } catch (\Exception $e) {
