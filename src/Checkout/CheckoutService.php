@@ -71,28 +71,29 @@ class CheckoutService
                 }
             }
 
-            // Calcular totales (precios en centavos)
-            $subtotal = 0;
+            // Calcular totales. Los precios YA incluyen IVA (19% embebido).
+            $bruto = 0;
             foreach ($items as $item) {
-                $subtotal += (int)$item['precio_unitario'] * (int)$item['cantidad'];
+                $bruto += (int)$item['precio_unitario'] * (int)$item['cantidad'];
             }
 
-            // Calcular IVA (19%)
-            $iva = (int)round($subtotal * 0.19);
-            $total = $subtotal + $iva;
+            // Desglose: el IVA se extrae del bruto, no se suma encima.
+            $iva = $bruto - (int)round($bruto / 1.19);
+            $subtotal = $bruto - $iva; // neto
+            $total = $bruto;
 
             // Aplicar cupón si existe
             $descuentoAplicado = 0;
             $cuponId = null;
             if ($cuponCodigo) {
-                $cupon = $this->repository->validarCupon($cuponCodigo, $subtotal);
+                $cupon = $this->repository->validarCupon($cuponCodigo, $bruto);
                 if ($cupon) {
                     // Límite por usuario: 1 uso por persona (solo cuenta compras pagadas).
                     if ($this->repository->usuarioYaUsoCupon($userId, (int)$cupon['id'])) {
                         throw new \RuntimeException('Este cupón ya fue usado en una compra anterior.');
                     }
                     if ($cupon['tipo_descuento'] === 'porcentaje') {
-                        $descuentoAplicado = (int)round($subtotal * $cupon['valor'] / 100);
+                        $descuentoAplicado = (int)round($bruto * $cupon['valor'] / 100);
                     } else {
                         $descuentoAplicado = (int)$cupon['valor'];
                     }

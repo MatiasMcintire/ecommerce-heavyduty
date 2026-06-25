@@ -45,10 +45,12 @@ class CarritoService
             $carrito['total'] = $this->calcularTotal($carrito['items']);
         }
 
-        // Calcular IVA (19%)
-        $carrito['subtotal'] = $carrito['total'];
-        $carrito['iva'] = (int)round($carrito['subtotal'] * 0.19);
-        $carrito['total_con_iva'] = $carrito['subtotal'] + $carrito['iva'];
+        // Precios YA incluyen IVA: el total es bruto, el IVA se desglosa hacia adentro.
+        // ponytail: IVA chileno fijo 19% embebido en el precio.
+        $bruto = $carrito['total'];
+        $carrito['iva'] = $bruto - (int)round($bruto / 1.19);
+        $carrito['subtotal'] = $bruto - $carrito['iva']; // neto
+        $carrito['total_con_iva'] = $bruto;
 
         // Formatear montos
         $carrito['subtotal_formateado'] = '$' . number_format($carrito['subtotal'] , 0, ',', '.');
