@@ -194,7 +194,7 @@ Los contratos OpenAPI 3.0 de cada módulo se encuentran en [`specs/03-contratos-
 ## Estructura del Repositorio
 
 ```
-ecommerce-project-s1-team-1-heavyduty/
+ecommerce-heavyduty/
 ├── README.md
 └── specs/
     ├── 00-producto/
@@ -301,9 +301,8 @@ php -S localhost:8000 -t public router.php
 2. En el **XAMPP Control Panel**, arrancar **MySQL**.
 3. Clonar y configurar (en Git Bash o la Shell de XAMPP):
    ```bash
-   git clone https://github.com/dd-software/ecommerce-project-s1.git
-   cd ecommerce-project-s1
-   git checkout team-1-heavyduty
+   git clone https://github.com/MatiasMcintire/ecommerce-heavyduty.git
+   cd ecommerce-heavyduty
    cp .env.example .env
    ```
    En `.env`, usar el root de XAMPP (**sin contraseña**):
@@ -330,9 +329,8 @@ brew install php mysql git
 brew services start mysql
 
 # Proyecto
-git clone https://github.com/dd-software/ecommerce-project-s1.git
-cd ecommerce-project-s1
-git checkout team-1-heavyduty
+git clone https://github.com/MatiasMcintire/ecommerce-heavyduty.git
+cd ecommerce-heavyduty
 cp .env.example .env          # editar DB_* y JWT_SECRET
 
 # BD + datos (setup.sql crea BD, usuario y carga los 6 seeds)
@@ -414,9 +412,8 @@ mysql -u ecommerce_app -p uct_ecommerce < database/seed_producto_demo.sql
 ```bash
 # Clonar el proyecto
 cd /var/www
-sudo git clone https://github.com/dd-software/ecommerce-project-s1.git ecommerce
+sudo git clone https://github.com/MatiasMcintire/ecommerce-heavyduty.git ecommerce
 cd ecommerce
-sudo git checkout team-1-heavyduty
 
 # Configurar permisos
 sudo chown -R www-data:www-data /var/www/ecommerce
@@ -499,6 +496,16 @@ sudo certbot --apache -d tudominio.com
 |---|---|---|
 | Administrador | admin@uct.cl | Password123! |
 | Cliente | juan@email.com | Password123! |
+
+---
+
+---
+
+## Licencia
+
+Distribuido bajo licencia **MIT**. Ver [`LICENSE`](LICENSE) para el detalle.
+
+Proyecto académico integrador (DDS + IA) desarrollado en equipo. Principal contribuyente: **Matías Mcintire**.
 
 ---
 
